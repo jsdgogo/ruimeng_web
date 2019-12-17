@@ -2,15 +2,15 @@
   <el-menu class="navbar" mode="horizontal">
     <hamburger :toggle-click="toggleSideBar" :is-active="sidebar.opened" class="hamburger-container"/>
     <breadcrumb />
-    <el-dropdown class="avatar-container" trigger="click">
+    <el-dropdown class="avatar-container" >
       <div class="avatar-wrapper">
-        <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
+        管理员
         <i class="el-icon-caret-bottom"/>
       </div>
       <el-dropdown-menu slot="dropdown" class="user-dropdown">
-        <router-link class="inlineBlock" to="/">
+        <router-link class="inlineBlock" to="/user">
           <el-dropdown-item>
-            首页
+            修改信息
           </el-dropdown-item>
         </router-link>
         <el-dropdown-item divided>
@@ -18,6 +18,7 @@
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
+
   </el-menu>
 </template>
 
@@ -33,8 +34,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'sidebar',
-      'avatar'
+      'sidebar'
+      // 'avatar'
     ])
   },
   methods: {
@@ -74,7 +75,7 @@ export default {
     right: 35px;
     .avatar-wrapper {
       cursor: pointer;
-      margin-top: 5px;
+      margin-top: 15px;
       position: relative;
       line-height: initial;
       .user-avatar {
@@ -85,7 +86,7 @@ export default {
       .el-icon-caret-bottom {
         position: absolute;
         right: -20px;
-        top: 25px;
+        top: 5px;
         font-size: 12px;
       }
     }

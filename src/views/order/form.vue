@@ -66,7 +66,7 @@ export default {
   // },
   methods: {
     cancel() {
-      this.$router.push({ path: '/customer' })
+      this.$router.push({ path: '/order' })
       return this.$message({
         type: 'error',
         message: '已取消!'

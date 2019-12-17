@@ -28,3 +28,12 @@ export function logout(token) {
     }
   })
 }
+export function update(user) {
+  return request({
+    url: '/user/update',
+    method: 'post',
+    data: {
+      user
+    }
+  })
+}
