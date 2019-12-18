@@ -2,6 +2,7 @@ import axios from 'axios'
 import { Message, MessageBox } from 'element-ui'
 import store from '../store'
 import { getToken } from '@/utils/auth'
+import qs from 'qs'
 
 // 创建axios实例
 const service = axios.create({
@@ -15,6 +16,7 @@ service.interceptors.request.use(
     if (store.getters.token) {
       config.headers['X-Token'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
     }
+    config.transformRequest = [transformRequest]
     return config
   },
   error => {
@@ -23,7 +25,15 @@ service.interceptors.request.use(
     Promise.reject(error)
   }
 )
-
+function transformRequest(data, headers) {
+  var type = headers['Content-Type']
+  if (type === undefined || type === 'application/x-www-form-urlencoded') {
+    data = qs.stringify({ ...data }, { arrayFormat: 'repeat' })
+  } else if (type === 'application/json;charset=UTF-8') {
+    data = JSON.stringify(data)
+  }
+  return data
+}
 // response 拦截器
 service.interceptors.response.use(
   response => {
