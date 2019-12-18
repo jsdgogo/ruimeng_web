@@ -11,21 +11,17 @@ export function login(loginName, password) {
   })
 }
 
-export function getInfo(token) {
+export function getInfo() {
   return request({
     url: '/user/info',
-    method: 'get',
-    params: { token }
+    method: 'get'
   })
 }
 
-export function logout(token) {
+export function logout() {
   return request({
     url: '/user/logout',
-    method: 'post',
-    data: {
-      token
-    }
+    method: 'post'
   })
 }
 export function update(user) {
@@ -37,3 +33,10 @@ export function update(user) {
     }
   })
 }
+export function toIndex(user) {
+  return request({
+    url: '/user/toIndex',
+    method: 'post'
+  })
+}
+

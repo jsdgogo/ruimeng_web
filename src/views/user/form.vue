@@ -1,6 +1,11 @@
 <template>
   <div class="app-container">
     <el-form ref="form" :model="user" label-width="100px" >
+      <el-form-item label="用户名">
+        <el-col :span="8">
+          <el-input v-model="user.name"/>
+        </el-col>
+      </el-form-item>
       <el-form-item label="登录名">
         <el-col :span="8">
           <el-input v-model="user.loginName"/>
@@ -9,6 +14,11 @@
       <el-form-item label="密码">
         <el-col :span="8">
           <el-input v-model="user.password"/>
+        </el-col>
+      </el-form-item>
+      <el-form-item label="级别">
+        <el-col :span="8">
+          <el-input v-model="user.level"/>
         </el-col>
       </el-form-item>
       <el-form-item>
@@ -25,10 +35,10 @@ export default {
   data() {
     return {
       user: {
-        // name: '',
+        name: '',
         loginName: '',
-        password: ''
-        // wechatId: '',
+        password: '',
+        level: ''
         // linkName: ''
       },
       saveBtnDisabled: false // 保存按钮是否禁用,

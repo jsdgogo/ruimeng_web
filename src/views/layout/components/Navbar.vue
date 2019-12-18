@@ -8,7 +8,7 @@
         <i class="el-icon-caret-bottom"/>
       </div>
       <el-dropdown-menu slot="dropdown" class="user-dropdown">
-        <router-link class="inlineBlock" to="/user">
+        <router-link class="inlineBlock" to="/user/update">
           <el-dropdown-item>
             修改信息
           </el-dropdown-item>

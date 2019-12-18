@@ -24,8 +24,6 @@ import Layout from '../views/layout/Layout'
 export const constantRouterMap = [
   { path: '/login', component: () => import('@/views/login/index'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
-  { path: '/user', component: () => import('@/views/user/form'), hidden: true },
-
   // 首页
   {
     path: '/',
@@ -160,6 +158,31 @@ export const constantRouterMap = [
       name: 'UpdateStaff',
       component: () => import('@/views/staff/form'),
       meta: { title: '修改员工', icon: 'peoples' },
+      hidden: true
+    }]
+  },
+  {
+    path: '/user',
+    component: Layout,
+    redirect: '/user/list',
+    name: 'User',
+    meta: { title: '用户管理', icon: 'peoples' },
+    children: [{
+      path: 'list',
+      name: 'UserList',
+      component: () => import('@/views/user/list'),
+      meta: { title: '用户列表', icon: 'peoples' }
+    },
+    {
+      path: 'save',
+      name: 'SaveUser',
+      component: () => import('@/views/user/form'),
+      meta: { title: '添加用户', icon: 'peoples' }
+    }, {
+      path: 'update',
+      name: 'UpdateUser',
+      component: () => import('@/views/user/form'),
+      meta: { title: '修改用户', icon: 'peoples' },
       hidden: true
     }]
   },
