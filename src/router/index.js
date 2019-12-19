@@ -167,18 +167,19 @@ export const constantRouterMap = [
     redirect: '/user/list',
     name: 'User',
     meta: { title: '用户管理', icon: 'peoples' },
+    hidden: true,
     children: [{
-      path: 'list',
-      name: 'UserList',
-      component: () => import('@/views/user/list'),
-      meta: { title: '用户列表', icon: 'peoples' }
-    },
-    {
-      path: 'save',
-      name: 'SaveUser',
-      component: () => import('@/views/user/form'),
-      meta: { title: '添加用户', icon: 'peoples' }
-    }, {
+    //   path: 'list',
+    //   name: 'UserList',
+    //   component: () => import('@/views/user/list'),
+    //   meta: { title: '用户列表', icon: 'peoples' }
+    // },
+    // {
+    //   path: 'save',
+    //   name: 'SaveUser',
+    //   component: () => import('@/views/user/form'),
+    //   meta: { title: '添加用户', icon: 'peoples' }
+    // }, {
       path: 'update',
       name: 'UpdateUser',
       component: () => import('@/views/user/form'),

@@ -39,6 +39,7 @@ export default {
   data() {
     return {
       customer: {
+        id:'',
         name: '',
         address: '',
         phone: '',
@@ -104,7 +105,7 @@ export default {
     // 根据id查询记录
     getById(id) {
       customer.getById(id).then(response => {
-        this.customer = response.data.customer
+        this.customer = { ...response.data.customer }
       })
     },
     // 更新

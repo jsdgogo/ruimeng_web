@@ -112,14 +112,43 @@ export default {
     //   })
     // },
     // 更新
+    // update() {
+    //   update(this.user).then(response => {
+    //     return this.$message({
+    //       type: 'success',
+    //       message: '修改成功!'
+    //     })
+    //   }).then(resposne => {
+    //     this.$router.push({ path: '/' })
+    //   })
+    // },
+    logout() {
+      this.$store.dispatch('LogOut').then(() => {
+        location.reload() // 为了重新实例化vue-router对象 避免bug
+      })
+    },
     update() {
-      update(this.user).then(response => {
-        return this.$message({
+      this.$confirm('修改成功将退出到登录页 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        return update(this.user)
+      }).then(() => { // 如果上一个then成功则执行此处的then回调
+        this.$message({
           type: 'success',
           message: '修改成功!'
         })
-      }).then(resposne => {
-        this.$router.push({ path: '/' })
+        this.$store.dispatch('LogOut')
+        }).then(() => {
+            location.reload() // 为了重新实例化vue-router对象 避免bug
+       }).catch((response) => { // 失败
+        if (response === 'cancel') {
+          this.$message({
+            type: 'info',
+            message: '已取消修改'
+          })
+        }
       })
     }
   }
