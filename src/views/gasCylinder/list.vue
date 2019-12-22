@@ -3,7 +3,7 @@
     <!--查询表单-->
     <el-form :inline="true" class="demo-form-inline" >
       <el-form-item>
-        <el-input v-model="search" placeholder="姓名 微信 地址 电话 联系人" />
+        <el-input v-model="search" placeholder="名称 类型 库存 单价" />
       </el-form-item>
 
       <!-- <el-form-item label="创建时间">
@@ -42,16 +42,16 @@
         width="70"
         align="center"/>
 
-      <el-table-column prop="name" label="空瓶名" width="180" />
+      <el-table-column prop="name" label="名称" width="240" />
 
       <el-table-column prop="type" label="类型" width="240"/>
 
       <el-table-column prop="inventory" label="库存" width="140"/>
 
       <el-table-column prop="price" label="单价" width="140"/>
-      <el-table-column prop="createTime" label="创建时间" width="180"/>
-      <el-table-column prop="updateTime" label="修改时间" width="180"/>
-      <el-table-column label="操作" width="250" align="center">
+      <el-table-column prop="createTime" label="创建时间" width="240"/>
+      <el-table-column prop="updateTime" label="修改时间" width="240"/>
+      <el-table-column label="操作"  align="center">
         <template slot-scope="scope">
           <router-link :to="'/gasCylinder/update/'+scope.row.id">
             <el-button type="primary" size="medium" icon="el-icon-edit">修改</el-button>

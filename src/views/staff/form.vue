@@ -83,8 +83,6 @@ export default {
         const id = this.$route.params.id
         this.getById(id)
       } else {
-        // 使用对象拓展运算符，拷贝对象，而不是引用，
-        // 否则新增一条记录后，defaultForm就变成了之前新增的teacher的值
         this.staff = { ...staff }
       }
     },
@@ -110,7 +108,13 @@ export default {
     // 根据id查询记录
     getById(id) {
       staff.getById(id).then(response => {
-        this.staff = response.data.staff
+        this.staff.id = response.data.staff.id
+        this.staff.name = response.data.staff.name
+        this.staff.age = response.data.staff.age
+        this.staff.phone = response.data.staff.phone
+        this.staff.workYears = response.data.staff.workYears
+        this.staff.salary = response.data.staff.salary
+        this.staff.level = response.data.staff.level
       })
     },
     // 更新

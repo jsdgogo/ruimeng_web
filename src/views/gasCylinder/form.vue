@@ -71,8 +71,6 @@ export default {
         const id = this.$route.params.id
         this.getById(id)
       } else {
-        // 使用对象拓展运算符，拷贝对象，而不是引用，
-        // 否则新增一条记录后，defaultForm就变成了之前新增的teacher的值
         this.gasCylinder = { ...gasCylinder }
       }
     },
@@ -98,7 +96,11 @@ export default {
     // 根据id查询记录
     getById(id) {
       gasCylinder.getById(id).then(response => {
-        this.gasCylinder = response.data.gasCylinder
+        this.gasCylinder.id = response.data.gasCylinder.id
+        this.gasCylinder.name = response.data.gasCylinder.name
+        this.gasCylinder.type = response.data.gasCylinder.type
+        this.gasCylinder.inventory = response.data.gasCylinder.inventory
+        this.gasCylinder.price = response.data.gasCylinder.price
       })
     },
     // 更新

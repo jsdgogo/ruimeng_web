@@ -28,9 +28,7 @@ export function update(user) {
   return request({
     url: '/user/update',
     method: 'post',
-    data: {
-      user
-    }
+    data: user
   })
 }
 export function toIndex(user) {

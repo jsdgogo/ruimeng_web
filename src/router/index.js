@@ -166,7 +166,6 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/user/list',
     name: 'User',
-    meta: { title: '用户管理', icon: 'peoples' },
     hidden: true,
     children: [{
     //   path: 'list',

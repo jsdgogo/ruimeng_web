@@ -1,19 +1,24 @@
 <template>
   <div class="app-container">
     <el-form ref="form" :model="user" label-width="100px" >
+      <el-form-item label="旧密码">
+        <el-col :span="8">
+          <el-input v-model="user.oldPassword" type="password"/>
+        </el-col>
+      </el-form-item>
+      <el-form-item label="新账号">
+        <el-col :span="8">
+          <el-input v-model="user.loginName" type="text" auto-complete="on"/>
+        </el-col>
+      </el-form-item>
+      <el-form-item label="新密码">
+        <el-col :span="8">
+          <el-input v-model="user.password" type="password" auto-complete="on"/>
+        </el-col>
+      </el-form-item>
       <el-form-item label="用户名">
         <el-col :span="8">
           <el-input v-model="user.name"/>
-        </el-col>
-      </el-form-item>
-      <el-form-item label="登录名">
-        <el-col :span="8">
-          <el-input v-model="user.loginName"/>
-        </el-col>
-      </el-form-item>
-      <el-form-item label="密码">
-        <el-col :span="8">
-          <el-input v-model="user.password"/>
         </el-col>
       </el-form-item>
       <el-form-item label="级别">
@@ -21,6 +26,7 @@
           <el-input v-model="user.level"/>
         </el-col>
       </el-form-item>
+      
       <el-form-item>
         <el-button type="primary" @click="update">保存</el-button>
         <el-button @click="cancel">取消</el-button>
@@ -30,17 +36,38 @@
 </template>
 <script>
 import { getInfo, update } from '@/api/login'
+import { isvalidUsername } from '@/utils/validate'
 
 export default {
   data() {
+    const validateUsername = (rule, value, callback) => {
+      if (!isvalidUsername(value)) {
+        callback(new Error('请输入正确的账号'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass = (rule, value, callback) => {
+      if (value.length < 5) {
+        callback(new Error('密码不能小于5位'))
+      } else {
+        callback()
+      }
+    }
     return {
       user: {
         name: '',
         loginName: '',
         password: '',
-        level: ''
-        // linkName: ''
+        level: '',
+        oldPassword:''
       },
+      loginRules: {
+        loginName: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        password: [{ required: true, trigger: 'blur', validator: validatePass }]
+      },
+      loading: false,
+      pwdType: 'password',
       saveBtnDisabled: false // 保存按钮是否禁用,
     }
   },
@@ -54,18 +81,12 @@ export default {
   created() {
     this.init()
   },
-  // created() {
-  //   if (this.$route.params && this.$route.params.id) {
-  //     const id = this.$route.params.id
-  //     this.getById(id)
-  //   }
-  // },
   methods: {
     cancel() {
       this.$router.push({ path: '/' })
       return this.$message({
         type: 'error',
-        message: '已取消!'
+        message: '已取消修改!'
       })
     },
     init() {
@@ -73,55 +94,11 @@ export default {
     },
     info() {
       getInfo().then(response => {
-        this.user = response.data.user
+        this.user.id = response.data.user.id
+        this.user.name = response.data.user.name
+        this.user.level = response.data.user.level
       })
     },
-    // init() {
-    //   if (this.$route.params && this.$route.params.id) {
-    //     const id = this.$route.params.id
-    //     this.getById(id)
-    //   } else {
-    //     // 使用对象拓展运算符，拷贝对象，而不是引用，
-    //     // 否则新增一条记录后，defaultForm就变成了之前新增的teacher的值
-    //     this.user = { ...user }
-    //   }
-    // },
-    // // 保存
-    // saveOrUpdate() {
-    //   this.saveBtnDisabled = true
-    //   if (!this.user.id) {
-    //     this.save()
-    //   } else {
-    //     this.update()
-    //   }
-    // },
-    // save() {
-    //   user.save(this.user).then(response => {
-    //     return this.$message({
-    //       type: 'success',
-    //       message: '保存成功!'
-    //     })
-    //   }).then(resposne => {
-    //     this.$router.push({ path: '/user' })
-    //   })
-    // },
-    // // 根据id查询记录
-    // getById(id) {
-    //   user.getById(id).then(response => {
-    //     this.user = response.data.user
-    //   })
-    // },
-    // 更新
-    // update() {
-    //   update(this.user).then(response => {
-    //     return this.$message({
-    //       type: 'success',
-    //       message: '修改成功!'
-    //     })
-    //   }).then(resposne => {
-    //     this.$router.push({ path: '/' })
-    //   })
-    // },
     logout() {
       this.$store.dispatch('LogOut').then(() => {
         location.reload() // 为了重新实例化vue-router对象 避免bug
@@ -139,9 +116,7 @@ export default {
           type: 'success',
           message: '修改成功!'
         })
-        this.$store.dispatch('LogOut')
-        }).then(() => {
-            location.reload() // 为了重新实例化vue-router对象 避免bug
+        this.logout()
        }).catch((response) => { // 失败
         if (response === 'cancel') {
           this.$message({

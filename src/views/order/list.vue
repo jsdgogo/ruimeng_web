@@ -6,7 +6,7 @@
         <el-input v-model="search" placeholder="姓名 微信 地址 电话 联系人" />
       </el-form-item>
 
-      <!-- <el-form-item label="创建时间">
+      <el-form-item label="创建时间">
         <el-date-picker
           v-model="beginTime"
           type="datetime"
@@ -23,7 +23,7 @@
           value-format="yyyy-MM-dd HH:mm:ss"
           default-time="00:00:00"
         />
-      </el-form-item> -->
+      </el-form-item>
 
       <el-button type="primary" icon="el-icon-search" @click="getPageList(index=1,size,search)">查询</el-button>
       <el-button type="default" @click="resetData()">清空</el-button>
@@ -53,7 +53,7 @@
       <el-table-column prop="linkman" label="联系人" width="100" />
       <el-table-column prop="createTime" label="创建时间" width="180"/>
       <el-table-column prop="updateTime" label="修改时间" width="180"/>
-      <el-table-column label="操作" width="250" align="center">
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <router-link :to="'/customer/update/'+scope.row.id">
             <el-button type="primary" size="medium" icon="el-icon-edit">修改</el-button>
@@ -86,9 +86,9 @@ export default {
       total: 0, // 总记录数
       index: 1, // 页码
       size: 8, // 每页记录数
-      search: '' // 查询条件
-      // beginTime: '',
-      // endTime: ''
+      search: '', // 查询条件
+      beginTime: '',
+      endTime: ''
     }
   },
 

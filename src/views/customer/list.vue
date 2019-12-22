@@ -2,8 +2,8 @@
   <div class="app-container">
     <!--查询表单-->
     <el-form :inline="true" class="demo-form-inline" >
-      <el-form-item>
-        <el-input v-model="search" placeholder="姓名 微信 地址 电话 联系人" />
+      <el-form-item >
+         <el-input v-model="search" placeholder="姓名 微信 地址 电话 联系人" style="width:220px" />
       </el-form-item>
 
       <!-- <el-form-item label="创建时间">

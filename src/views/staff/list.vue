@@ -3,7 +3,7 @@
     <!--查询表单-->
     <el-form :inline="true" class="demo-form-inline" >
       <el-form-item>
-        <el-input v-model="search" placeholder="姓名 微信 地址 电话 联系人" />
+        <el-input v-model="search" placeholder="姓名 年龄 电话 工龄 月工资 级别" style="width:240px" />
       </el-form-item>
 
       <!-- <el-form-item label="创建时间">
@@ -42,19 +42,19 @@
         width="70"
         align="center"/>
 
-      <el-table-column prop="name" label="姓名" width="180" />
+      <el-table-column prop="name" label="姓名" width="160" />
 
-      <el-table-column prop="age" label="年龄" width="240"/>
+      <el-table-column prop="age" label="年龄" width="160"/>
 
-      <el-table-column prop="phone" label="电话" width="140"/>
+      <el-table-column prop="phone" label="电话" width="160"/>
 
-      <el-table-column prop="workYears" label="工龄" width="140"/>
+      <el-table-column prop="workYears" label="工龄" width="160"/>
 
-      <el-table-column prop="salary" label="月工资" width="100" />
-      <el-table-column prop="level" label="级别" width="100" />
+      <el-table-column prop="salary" label="月工资" width="160" />
+      <el-table-column prop="level" label="级别" width="160" />
       <el-table-column prop="createTime" label="创建时间" width="180"/>
       <el-table-column prop="updateTime" label="修改时间" width="180"/>
-      <el-table-column label="操作" width="250" align="center">
+      <el-table-column label="操作"  align="center">
         <template slot-scope="scope">
           <router-link :to="'/staff/update/'+scope.row.id">
             <el-button type="primary" size="medium" icon="el-icon-edit">修改</el-button>

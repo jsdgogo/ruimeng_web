@@ -44,7 +44,7 @@ export default {
         address: '',
         phone: '',
         wechatId: '',
-        linkName: ''
+        linkman: ''
       },
       saveBtnDisabled: false // 保存按钮是否禁用,
     }
@@ -59,12 +59,6 @@ export default {
   created() {
     this.init()
   },
-  // created() {
-  //   if (this.$route.params && this.$route.params.id) {
-  //     const id = this.$route.params.id
-  //     this.getById(id)
-  //   }
-  // },
   methods: {
     cancel() {
       this.$router.push({ path: '/customer' })
@@ -78,8 +72,6 @@ export default {
         const id = this.$route.params.id
         this.getById(id)
       } else {
-        // 使用对象拓展运算符，拷贝对象，而不是引用，
-        // 否则新增一条记录后，defaultForm就变成了之前新增的teacher的值
         this.customer = { ...customer }
       }
     },
@@ -105,11 +97,17 @@ export default {
     // 根据id查询记录
     getById(id) {
       customer.getById(id).then(response => {
-        this.customer = { ...response.data.customer }
+        this.customer.id = response.data.customer.id
+        this.customer.name = response.data.customer.name
+        this.customer.linkman = response.data.customer.linkman
+        this.customer.wechatId = response.data.customer.wechatId
+        this.customer.phone = response.data.customer.phone
+        this.customer.address = response.data.customer.address
       })
     },
     // 更新
     update() {
+      console.log(this.customer)
       customer.update(this.customer).then(response => {
         return this.$message({
           type: 'success',
