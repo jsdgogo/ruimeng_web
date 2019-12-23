@@ -35,11 +35,11 @@ export default {
       params: { id }
     })
   },
-  update(teacher) {
+  update(gasCylinder) {
     return request({
       url: '/gasCylinder/update',
       method: 'post',
-      data: teacher
+      data: gasCylinder
     })
   }
 }

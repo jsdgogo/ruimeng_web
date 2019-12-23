@@ -35,11 +35,11 @@ export default {
       params: { id }
     })
   },
-  update(teacher) {
+  update(emptyBottle) {
     return request({
       url: '/emptyBottle/update',
       method: 'post',
-      data: teacher
+      data: emptyBottle
     })
   }
 }

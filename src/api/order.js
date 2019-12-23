@@ -25,7 +25,12 @@ export default {
     return request({
       url: '/order/save',
       method: 'post',
-      data: order
+      data: {
+        order
+      },
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8'
+      }
     })
   },
   getById(id) {
@@ -35,11 +40,16 @@ export default {
       params: { id }
     })
   },
-  update(teacher) {
+  update(order) {
     return request({
       url: '/order/update',
       method: 'post',
-      data: teacher
+      data: {
+        order: order
+      },
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8'
+      }
     })
   }
 }

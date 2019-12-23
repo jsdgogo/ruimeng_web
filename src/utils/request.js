@@ -27,10 +27,12 @@ service.interceptors.request.use(
 )
 function transformRequest(data, headers) {
   var type = headers['Content-Type']
+  console.log(type)
   if (type === undefined || type === 'application/x-www-form-urlencoded') {
     data = qs.stringify({ ...data }, { arrayFormat: 'repeat' })
   } else if (type === 'application/json;charset=UTF-8') {
     data = JSON.stringify(data)
+    console.log(data)
   }
   return data
 }
