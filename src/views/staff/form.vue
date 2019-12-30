@@ -26,9 +26,9 @@
           <el-input v-model="staff.salary"/>
         </el-col>
       </el-form-item>
-      <el-form-item label="级别">
+      <el-form-item label="职位">
         <el-col :span="8">
-          <el-input v-model="staff.level"/>
+          <el-input v-model="staff.position"/>
         </el-col>
       </el-form-item>
       <el-form-item>
@@ -44,12 +44,13 @@ export default {
   data() {
     return {
       staff: {
+        id: '',
         name: '',
         age: '',
         phone: '',
         workYears: '',
         salary: '',
-        level: ''
+        position: ''
       },
       saveBtnDisabled: false // 保存按钮是否禁用,
     }
@@ -64,12 +65,6 @@ export default {
   created() {
     this.init()
   },
-  // created() {
-  //   if (this.$route.params && this.$route.params.id) {
-  //     const id = this.$route.params.id
-  //     this.getById(id)
-  //   }
-  // },
   methods: {
     cancel() {
       this.$router.push({ path: '/staff' })
@@ -114,7 +109,7 @@ export default {
         this.staff.phone = response.data.staff.phone
         this.staff.workYears = response.data.staff.workYears
         this.staff.salary = response.data.staff.salary
-        this.staff.level = response.data.staff.level
+        this.staff.level = response.data.staff.position
       })
     },
     // 更新

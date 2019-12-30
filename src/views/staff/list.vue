@@ -51,10 +51,10 @@
       <el-table-column prop="workYears" label="工龄" width="160"/>
 
       <el-table-column prop="salary" label="月工资" width="160" />
-      <el-table-column prop="level" label="级别" width="160" />
+      <el-table-column prop="position" label="级别" width="160" />
       <el-table-column prop="createTime" label="创建时间" width="180"/>
       <el-table-column prop="updateTime" label="修改时间" width="180"/>
-      <el-table-column label="操作"  align="center">
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <router-link :to="'/staff/update/'+scope.row.id">
             <el-button type="primary" size="medium" icon="el-icon-edit">修改</el-button>

@@ -21,12 +21,7 @@
           <el-input v-model="user.name"/>
         </el-col>
       </el-form-item>
-      <el-form-item label="级别">
-        <el-col :span="8">
-          <el-input v-model="user.level"/>
-        </el-col>
-      </el-form-item>
-      
+
       <el-form-item>
         <el-button type="primary" @click="update">保存</el-button>
         <el-button @click="cancel">取消</el-button>
@@ -59,8 +54,7 @@ export default {
         name: '',
         loginName: '',
         password: '',
-        level: '',
-        oldPassword:''
+        oldPassword: ''
       },
       loginRules: {
         loginName: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -96,7 +90,6 @@ export default {
       getInfo().then(response => {
         this.user.id = response.data.user.id
         this.user.name = response.data.user.name
-        this.user.level = response.data.user.level
       })
     },
     logout() {
@@ -117,7 +110,7 @@ export default {
           message: '修改成功!'
         })
         this.logout()
-       }).catch((response) => { // 失败
+      }).catch((response) => { // 失败
         if (response === 'cancel') {
           this.$message({
             type: 'info',

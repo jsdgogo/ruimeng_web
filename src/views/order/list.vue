@@ -42,20 +42,17 @@
         width="70"
         align="center"/>
 
-      <el-table-column prop="name" label="姓名" width="180" />
+      <el-table-column prop="customerName" label="客户名" width="180" />
 
-      <el-table-column prop="address" label="地址" width="240"/>
+      <el-table-column prop="quantity" label="总数量" width="240"/>
 
-      <el-table-column prop="phone" label="电话" width="140"/>
+      <el-table-column prop="totalPrice" label="总金额" width="140"/>
 
-      <el-table-column prop="wechatId" label="微信" width="140"/>
-
-      <el-table-column prop="linkman" label="联系人" width="100" />
       <el-table-column prop="createTime" label="创建时间" width="180"/>
       <el-table-column prop="updateTime" label="修改时间" width="180"/>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <router-link :to="'/customer/update/'+scope.row.id">
+          <router-link :to="'/order/update/'+scope.row.id">
             <el-button type="primary" size="medium" icon="el-icon-edit">修改</el-button>
           </router-link>
           <el-button type="danger" size="medium" icon="el-icon-delete" @click="removeById(scope.row.id)">删除</el-button>
@@ -76,7 +73,7 @@
 </template>
 
 <script>
-import customer from '@/api/customer'
+import order from '@/api/order'
 export default {
 
   data() { // 定义数据
@@ -108,7 +105,7 @@ export default {
     },
     getPageList() {
       this.listLoading = true
-      customer.getPageList(this.index, this.size, this.search).then(response => {
+      order.getPageList(this.index, this.size, this.search).then(response => {
         this.total = response.data.page.total
         this.index = response.data.page.current
         this.size = response.data.page.size
@@ -122,7 +119,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        return customer.removeById(id)
+        return order.removeById(id)
       }).then(() => { // 如果上一个then成功则执行此处的then回调
         this.getPageList()
         this.$message({

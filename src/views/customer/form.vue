@@ -39,7 +39,7 @@ export default {
   data() {
     return {
       customer: {
-        id:'',
+        id: '',
         name: '',
         address: '',
         phone: '',

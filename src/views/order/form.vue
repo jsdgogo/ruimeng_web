@@ -141,6 +141,7 @@ export default {
       search: '', // 查询条件
       beginTime: '',
       endTime: '',
+      id: '',
       customer: {
         customerId: '',
         customerName: '',
@@ -258,9 +259,6 @@ export default {
     save() {
       this.order.customer = this.customer
       this.order.orderItems = this.orderItems
-      console.log(this.customer)
-      console.log(this.order)
-      console.log(this.orderItems)
       order.save(this.order).then(response => {
         console.log(this.order)
         return this.$message({

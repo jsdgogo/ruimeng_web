@@ -26,7 +26,7 @@ export default {
       url: '/order/save',
       method: 'post',
       data: {
-        order
+        orderInfo: order
       },
       headers: {
         'Content-Type': 'application/json;charset=UTF-8'
@@ -45,7 +45,7 @@ export default {
       url: '/order/update',
       method: 'post',
       data: {
-        order: order
+        orderInfo: order
       },
       headers: {
         'Content-Type': 'application/json;charset=UTF-8'
