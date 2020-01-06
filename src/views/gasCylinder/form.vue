@@ -3,22 +3,22 @@
     <el-form ref="form" :model="gasCylinder" label-width="100px" >
       <el-form-item label="气瓶名">
         <el-col :span="8">
-          <el-input v-model="gasCylinder.name" />
+          <el-input v-model.trim="gasCylinder.name" />
         </el-col>
       </el-form-item>
       <el-form-item label="类型">
         <el-col :span="8">
-          <el-input v-model="gasCylinder.type"/>
+          <el-input v-model.trim="gasCylinder.type"/>
         </el-col>
       </el-form-item>
       <el-form-item label="库存">
         <el-col :span="8">
-          <el-input v-model="gasCylinder.inventory"/>
+          <el-input v-model.trim="gasCylinder.inventory"/>
         </el-col>
       </el-form-item>
       <el-form-item label="单价">
         <el-col :span="8">
-          <el-input v-model="gasCylinder.price"/>
+          <el-input v-model.trim="gasCylinder.price"/>
         </el-col>
       </el-form-item>
       <el-form-item>

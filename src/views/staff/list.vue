@@ -3,12 +3,12 @@
     <!--查询表单-->
     <el-form :inline="true" class="demo-form-inline" >
       <el-form-item>
-        <el-input v-model="search" placeholder="姓名 年龄 电话 工龄 月工资 级别" style="width:240px" />
+        <el-input v-model.trim="search" placeholder="姓名 年龄 电话 工龄 月工资 级别" style="width:240px" />
       </el-form-item>
 
       <!-- <el-form-item label="创建时间">
         <el-date-picker
-          v-model="beginTime"
+          v-model.trim="beginTime"
           type="datetime"
           placeholder="选择开始时间"
           value-format="yyyy-MM-dd HH:mm:ss"
@@ -17,7 +17,7 @@
       </el-form-item>
       <el-form-item>
         <el-date-picker
-          v-model="endTime"
+          v-model.trim="endTime"
           type="datetime"
           placeholder="选择截止时间"
           value-format="yyyy-MM-dd HH:mm:ss"

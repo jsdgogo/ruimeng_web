@@ -3,22 +3,22 @@
     <el-form ref="form" :model="user" label-width="100px" >
       <el-form-item label="旧密码">
         <el-col :span="8">
-          <el-input v-model="user.oldPassword" type="password"/>
+          <el-input v-model.trim="user.oldPassword" type="password"/>
         </el-col>
       </el-form-item>
       <el-form-item label="新账号">
         <el-col :span="8">
-          <el-input v-model="user.loginName" type="text" auto-complete="on"/>
+          <el-input v-model.trim="user.loginName" type="text" auto-complete="on"/>
         </el-col>
       </el-form-item>
       <el-form-item label="新密码">
         <el-col :span="8">
-          <el-input v-model="user.password" type="password" auto-complete="on"/>
+          <el-input v-model.trim="user.password" type="password" auto-complete="on"/>
         </el-col>
       </el-form-item>
       <el-form-item label="用户名">
         <el-col :span="8">
-          <el-input v-model="user.name"/>
+          <el-input v-model.trim="user.name"/>
         </el-col>
       </el-form-item>
 

@@ -3,12 +3,12 @@
     <!--查询表单-->
     <el-form :inline="true" class="demo-form-inline" >
       <el-form-item>
-        <el-input v-model="search" placeholder="姓名 微信 地址 电话 联系人" />
+        <el-input v-model.trim="search" placeholder="姓名 微信 地址 电话 联系人" />
       </el-form-item>
 
       <el-form-item label="创建时间">
         <el-date-picker
-          v-model="beginTime"
+          v-model.trim="beginTime"
           type="datetime"
           placeholder="选择开始时间"
           value-format="yyyy-MM-dd HH:mm:ss"
@@ -17,7 +17,7 @@
       </el-form-item>
       <el-form-item>
         <el-date-picker
-          v-model="endTime"
+          v-model.trim="endTime"
           type="datetime"
           placeholder="选择截止时间"
           value-format="yyyy-MM-dd HH:mm:ss"
@@ -25,7 +25,7 @@
         />
       </el-form-item>
 
-      <el-button type="primary" icon="el-icon-search" @click="getPageList(index=1,size,search)">查询</el-button>
+      <el-button type="primary" icon="el-icon-search" @click="getPageList(index=1,size,search,beginTime,endTime)">查询</el-button>
       <el-button type="default" @click="resetData()">清空</el-button>
     </el-form>
     <!-- 表格 -->
@@ -105,7 +105,7 @@ export default {
     },
     getPageList() {
       this.listLoading = true
-      order.getPageList(this.index, this.size, this.search).then(response => {
+      order.getPageList(this.index, this.size, this.search, this.beginTime, this.endTime).then(response => {
         this.total = response.data.page.total
         this.index = response.data.page.current
         this.size = response.data.page.size

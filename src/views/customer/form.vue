@@ -3,27 +3,27 @@
     <el-form ref="form" :model="customer" label-width="100px" >
       <el-form-item label="客户名称">
         <el-col :span="8">
-          <el-input v-model="customer.name" />
+          <el-input v-model.trim="customer.name" />
         </el-col>
       </el-form-item>
       <el-form-item label="所在地址">
         <el-col :span="8">
-          <el-input v-model="customer.address"/>
+          <el-input v-model.trim="customer.address"/>
         </el-col>
       </el-form-item>
       <el-form-item label="联系人姓名">
         <el-col :span="8">
-          <el-input v-model="customer.linkman"/>
+          <el-input v-model.trim="customer.linkman"/>
         </el-col>
       </el-form-item>
       <el-form-item label="联系人电话">
         <el-col :span="8">
-          <el-input v-model="customer.phone"/>
+          <el-input v-model.trim="customer.phone"/>
         </el-col>
       </el-form-item>
       <el-form-item label="联系人微信号">
         <el-col :span="8">
-          <el-input v-model="customer.wechatId"/>
+          <el-input v-model.trim="customer.wechatId"/>
         </el-col>
       </el-form-item>
       <el-form-item>

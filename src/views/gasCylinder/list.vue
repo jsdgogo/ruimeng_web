@@ -3,12 +3,12 @@
     <!--查询表单-->
     <el-form :inline="true" class="demo-form-inline" >
       <el-form-item>
-        <el-input v-model="search" placeholder="名称 类型 库存 单价" />
+        <el-input v-model.trim="search" placeholder="名称 类型 库存 单价" />
       </el-form-item>
 
       <!-- <el-form-item label="创建时间">
         <el-date-picker
-          v-model="beginTime"
+          v-model.trim="beginTime"
           type="datetime"
           placeholder="选择开始时间"
           value-format="yyyy-MM-dd HH:mm:ss"
@@ -17,7 +17,7 @@
       </el-form-item>
       <el-form-item>
         <el-date-picker
-          v-model="endTime"
+          v-model.trim="endTime"
           type="datetime"
           placeholder="选择截止时间"
           value-format="yyyy-MM-dd HH:mm:ss"
@@ -51,7 +51,7 @@
       <el-table-column prop="price" label="单价" width="140"/>
       <el-table-column prop="createTime" label="创建时间" width="240"/>
       <el-table-column prop="updateTime" label="修改时间" width="240"/>
-      <el-table-column label="操作"  align="center">
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <router-link :to="'/gasCylinder/update/'+scope.row.id">
             <el-button type="primary" size="medium" icon="el-icon-edit">修改</el-button>

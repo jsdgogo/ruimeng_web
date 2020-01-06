@@ -6,7 +6,7 @@
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
-        <el-input v-model="loginForm.username" name="username" type="text" auto-complete="on" />
+        <el-input v-model.trim="loginForm.username" name="username" type="text" auto-complete="on" />
       </el-form-item>
       <el-form-item prop="password">
         <span class="svg-container">
@@ -14,7 +14,7 @@
         </span>
         <el-input
           :type="pwdType"
-          v-model="loginForm.password"
+          v-model.trim="loginForm.password"
           name="password"
           auto-complete="on"
           @keyup.enter.native="handleLogin" />

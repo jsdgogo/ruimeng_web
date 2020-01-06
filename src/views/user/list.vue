@@ -3,12 +3,12 @@
     <!--查询表单-->
     <el-form :inline="true" class="demo-form-inline" >
       <el-form-item>
-        <el-input v-model="search" placeholder="姓名 微信 地址 电话 联系人" />
+        <el-input v-model.trim="search" placeholder="姓名 微信 地址 电话 联系人" />
       </el-form-item>
 
       <!-- <el-form-item label="创建时间">
         <el-date-picker
-          v-model="beginTime"
+          v-model.trim="beginTime"
           type="datetime"
           placeholder="选择开始时间"
           value-format="yyyy-MM-dd HH:mm:ss"
@@ -17,7 +17,7 @@
       </el-form-item>
       <el-form-item>
         <el-date-picker
-          v-model="endTime"
+          v-model.trim="endTime"
           type="datetime"
           placeholder="选择截止时间"
           value-format="yyyy-MM-dd HH:mm:ss"
@@ -56,7 +56,7 @@
       <el-table-column prop="updateTime" label="修改时间" width="180"/>
       <el-table-column label="操作" width="250" align="center">
         <template slot-scope="scope">
-          <router-link :to="'/staff/update/'+scope.row.id">
+          <router-link :to="'/user/update/'+scope.row.id">
             <el-button type="primary" size="medium" icon="el-icon-edit">修改</el-button>
           </router-link>
           <el-button type="danger" size="medium" icon="el-icon-delete" @click="removeById(scope.row.id)">删除</el-button>

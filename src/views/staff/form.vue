@@ -3,32 +3,32 @@
     <el-form ref="form" :model="staff" label-width="100px" >
       <el-form-item label="姓名">
         <el-col :span="8">
-          <el-input v-model="staff.name" />
+          <el-input v-model.trim="staff.name" />
         </el-col>
       </el-form-item>
       <el-form-item label="年龄">
         <el-col :span="8">
-          <el-input v-model="staff.age"/>
+          <el-input v-model.trim="staff.age"/>
         </el-col>
       </el-form-item>
       <el-form-item label="工龄">
         <el-col :span="8">
-          <el-input v-model="staff.workYears"/>
+          <el-input v-model.trim="staff.workYears"/>
         </el-col>
       </el-form-item>
       <el-form-item label="联系电话">
         <el-col :span="8">
-          <el-input v-model="staff.phone"/>
+          <el-input v-model.trim="staff.phone"/>
         </el-col>
       </el-form-item>
       <el-form-item label="月工资">
         <el-col :span="8">
-          <el-input v-model="staff.salary"/>
+          <el-input v-model.trim="staff.salary"/>
         </el-col>
       </el-form-item>
       <el-form-item label="职位">
         <el-col :span="8">
-          <el-input v-model="staff.position"/>
+          <el-input v-model.trim="staff.position"/>
         </el-col>
       </el-form-item>
       <el-form-item>
@@ -109,7 +109,7 @@ export default {
         this.staff.phone = response.data.staff.phone
         this.staff.workYears = response.data.staff.workYears
         this.staff.salary = response.data.staff.salary
-        this.staff.level = response.data.staff.position
+        this.staff.position = response.data.staff.position
       })
     },
     // 更新

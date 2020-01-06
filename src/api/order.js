@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 export default {
-  getPageList(index, size, search, beginTime, endTIme) {
+  getPageList(index, size, search, beginTime, endTime) {
     return request({
       url: '/order/findByPage',
       method: 'post',
@@ -10,7 +10,7 @@ export default {
         size,
         search,
         beginTime,
-        endTIme
+        endTime
       }
     })
   },

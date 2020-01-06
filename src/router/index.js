@@ -86,31 +86,31 @@ export const constantRouterMap = [
       hidden: true
     }]
   },
-  {
-    path: '/emptyBottle',
-    component: Layout,
-    redirect: '/emptyBottle/list',
-    name: 'EmptyBottle',
-    meta: { title: '空瓶管理', icon: 'peoples' },
-    children: [{
-      path: 'list',
-      name: 'EmptyBottleList',
-      component: () => import('@/views/emptyBottle/list'),
-      meta: { title: '空瓶列表', icon: 'peoples' }
-    },
-    {
-      path: 'save',
-      name: 'SaveEmptyBottle',
-      component: () => import('@/views/emptyBottle/form'),
-      meta: { title: '添加空瓶', icon: 'peoples' }
-    }, {
-      path: 'update/:id',
-      name: 'UpdateEmptyBottle',
-      component: () => import('@/views/emptyBottle/form'),
-      meta: { title: '修改空瓶', icon: 'peoples' },
-      hidden: true
-    }]
-  },
+  // {
+  //   path: '/emptyBottle',
+  //   component: Layout,
+  //   redirect: '/emptyBottle/list',
+  //   name: 'EmptyBottle',
+  //   meta: { title: '空瓶管理', icon: 'peoples' },
+  //   children: [{
+  //     path: 'list',
+  //     name: 'EmptyBottleList',
+  //     component: () => import('@/views/emptyBottle/list'),
+  //     meta: { title: '空瓶列表', icon: 'peoples' }
+  //   },
+  //   {
+  //     path: 'save',
+  //     name: 'SaveEmptyBottle',
+  //     component: () => import('@/views/emptyBottle/form'),
+  //     meta: { title: '添加空瓶', icon: 'peoples' }
+  //   }, {
+  //     path: 'update/:id',
+  //     name: 'UpdateEmptyBottle',
+  //     component: () => import('@/views/emptyBottle/form'),
+  //     meta: { title: '修改空瓶', icon: 'peoples' },
+  //     hidden: true
+  //   }]
+  // },
   {
     path: '/order',
     component: Layout,
