@@ -1,8 +1,11 @@
 <template>
   <div class="app-container">
-    <el-form :inline="true" class="demo-form-inline" label-width="80px">
+    <el-form :inline="true" class="demo-form-inline" >
       <el-form-item label="客户名称:">
-        <el-input v-model.trim="customer.name" placeholder="未选择" readonly/>
+        <el-input v-model.trim="customer.customerName" placeholder="未选择" readonly/>
+      </el-form-item>
+      <el-form-item label="地址:">
+        <el-input v-model.trim="customer.address" placeholder="未选择" readonly/>
       </el-form-item>
       <el-form-item>
         <el-popover
@@ -31,7 +34,7 @@
             <el-table-column width="120" property="wechatId" label="微信"/>
             <el-table-column label="操作" align="center">
               <template slot-scope="scope">
-                <el-button type="success" size="medium" icon="el-icon-success" @click="addCustomer(scope.row.id,scope.row.name)">添加</el-button>
+                <el-button type="success" size="medium" icon="el-icon-success" @click="addCustomer(scope.row.id,scope.row.name,scope.row.address)">添加</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -46,12 +49,6 @@
             @current-change="handleCustomerCurrentChange"/>
           <el-button slot="reference" type="primary" @click="addCustomers()">选择客户</el-button>
         </el-popover>
-      </el-form-item>
-
-    </el-form>
-    <el-form :inline="true" class="demo-form-inline" label-width="80px" >
-      <el-form-item label="空瓶类型:">
-        <el-input v-model.trim="gasCylinder.name" placeholder="未选择" readonly/>
       </el-form-item>
       <el-form-item>
         <el-popover
@@ -77,7 +74,7 @@
             <el-table-column width="160" property="inventory" label="气瓶库存"/>
             <el-table-column label="操作" align="center">
               <template slot-scope="scope">
-                <el-button type="success" size="medium" icon="el-icon-success" @click="addGasCylinder(scope.row.id,scope.row.name)">添加</el-button>
+                <el-button type="success" size="medium" icon="el-icon-success" @click="addGasCylinder(scope.row.id,scope.row.name,scope.row.inventory)">添加</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -90,51 +87,63 @@
             layout="total, sizes, prev, pager, next, jumper"
             @size-change="handleorderItemsizeChange"
             @current-change="handleGasCylinderCurrentChange"/>
-          <el-button slot="reference" type="primary" @click="addorderItems()">选择气瓶</el-button>
+          <el-button slot="reference" type="primary" @click="addorderItems()">添加气瓶</el-button>
         </el-popover>
-      </el-form-item>
-    </el-form>
-    <el-form ref="emptyBottle" :model="emptyBottle" label-width="80px">
-      <el-form-item label="所欠总数">
-        <el-col :span="8">
-          <el-input-number v-model="emptyBottle.total" :min="1"/>
-        </el-col>
-      </el-form-item>
-      <el-form-item label="已归还">
-        <el-col :span="8">
-          <el-input-number v-model="emptyBottle.sendBackNumber" :min="1" />
-        </el-col>
-      </el-form-item>
-      <el-form-item label="单价">
-        <el-col :span="8">
-          <el-input-number v-model="emptyBottle.price" :precision="4" :step="0.1" :min="0"/>
-        </el-col>
       </el-form-item>
       <el-form-item label="创建时间">
         <el-date-picker
-          v-model.trim="emptyBottle.createTimeStr"
+          v-model.trim="order.createTimeStr"
           type="datetime"
-          placeholder="创建时间"
+          placeholder="订单创建时间"
           value-format="yyyy-MM-dd HH:mm:ss"
           default-time="00:00:00"
         />
       </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="saveOrUpdate">保存</el-button>
-        <el-button type="primary" @click="cancel">取消</el-button>
-      </el-form-item>
     </el-form>
-</div></template>
+    <el-table
+      v-loading="false"
+      :data="orderItems"
+      element-loading-text="数据加载中"
+      border
+      fit
+      highlight-current-row>
+      <el-table-column prop="name" label="气瓶类型" width="180" />
+      <el-table-column prop="price" label="单价" width="140">
+        <template slot-scope="scope">
+          <el-input v-model.trim.trim="scope.row.price" />
+        </template>
+      </el-table-column>
+      <el-table-column prop="quantity" label="数量" width="140">
+        <template slot-scope="scope">
+          <el-input v-model.trim.trim="scope.row.quantity" />
+        </template>
+      </el-table-column>
+      <el-table-column prop="total" label="金额" width="140" >
+        <template v-if="scope.row.price&&scope.row.quantity" slot-scope="scope">
+          {{ (scope.row.total = scope.row.price *scope.row.quantity) }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="inventory" label="气瓶库存" width="140"/>
+      <el-table-column label="操作" align="center">
+        <template slot-scope="scope">
+          <el-button type="danger" size="medium" icon="el-icon-delete" @click="removeGasCylinder(scope.row.id)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <br>
+    <el-button slot="reference" type="primary" style="display:block;margin:0 auto" @click="saveOrUpdate()">生成订单</el-button>
+  </div>
+</template>
 <script>
-import emptyBottle from '@/api/emptyBottle'
+import order from '@/api/order'
 import customer from '@/api/customer'
 import gasCylinder from '@/api/gasCylinder'
 export default {
   data() {
     return {
       listLoading: true, // 是否显示loading信息
+      customerList: [], // 数据列表
       gasCylinderList: [],
-      customerList: [],
       total: 0, // 总记录数
       index: 1, // 页码
       size: 8, // 每页记录数
@@ -143,24 +152,25 @@ export default {
       endTime: '',
       id: '',
       customer: {
-        id: '',
-        name: ''
-      },
-      gasCylinder: {
-        id: '',
-        name: ''
-      },
-      saveBtnDisabled: false, // 保存按钮是否禁用,
-      emptyBottle: {
-        id: '',
-        createTimeStr: '',
         customerId: '',
         customerName: '',
+        address: ''
+      },
+      gasCylinder: {
         gasCylinderId: '',
-        gasCylinderName: '',
+        name: '',
         price: '',
-        sendBackNumber: '',
-        total: ''
+        quantity: '',
+        total: this.quantity * this.price,
+        id: ''
+      },
+      orderItems: [],
+      saveBtnDisabled: false, // 保存按钮是否禁用,
+      order: {
+        id: '',
+        createTimeStr: '',
+        orderItems: [],
+        customer: {}
       }
     }
   },
@@ -176,7 +186,7 @@ export default {
   },
   methods: {
     cancel() {
-      this.$router.push({ path: '/emptyBottle' })
+      this.$router.push({ path: '/order' })
       return this.$message({
         type: 'error',
         message: '已取消!'
@@ -188,14 +198,21 @@ export default {
         console.log(id)
         this.getById(id)
       } else {
-        this.emptyBottle = { ...emptyBottle }
+        this.order = { ...order }
       }
     },
-    addCustomer(id, name) {
-      this.customer.id = id
-      this.customer.name = name
-      this.emptyBottle.customerId = this.customer.id
-      this.emptyBottle.customerName = this.customer.name
+    removeGasCylinder(gasCylinderId) {
+      var index = this.orderItems.findIndex(item => {
+        if (item.gasCylinderId === gasCylinderId) {
+          return true
+        }
+      })
+      this.orderItems.splice(index, 1)
+    },
+    addCustomer(id, name, address) {
+      this.customer.customerId = id
+      this.customer.customerName = name
+      this.customer.address = address
     },
     addCustomers() {
       this.size = 8
@@ -223,11 +240,9 @@ export default {
         this.listLoading = false
       })
     },
-    addGasCylinder(id, name) {
-      this.gasCylinder.id = id
-      this.gasCylinder.name = name
-      this.emptyBottle.gasCylinderId = this.gasCylinder.id
-      this.emptyBottle.gasCylinderName = this.gasCylinder.name
+    addGasCylinder(gasCylinderId, name, inventory) {
+      var gas = { gasCylinderId, name, inventory }
+      this.orderItems.push(gas)
     },
     addorderItems() {
       this.size = 8
@@ -259,50 +274,44 @@ export default {
     // 保存
     saveOrUpdate() {
       this.saveBtnDisabled = true
-      if (!this.emptyBottle.id) {
+      if (!this.order.id) {
         this.save()
       } else {
         this.update()
       }
     },
     save() {
-      emptyBottle.save(this.emptyBottle).then(response => {
+      this.order.customer = this.customer
+      this.order.orderItems = this.orderItems
+      order.save(this.order).then(response => {
         return this.$message({
           type: 'success',
           message: '保存成功!'
         })
       }).then(resposne => {
-        this.$router.push({ path: '/emptyBottle' })
+        this.$router.push({ path: '/order' })
       })
     },
     // 根据id查询记录
     getById(id) {
-      this.emptyBottle.id = id
-      emptyBottle.getById(id).then(response => {
-        this.emptyBottle.id = response.data.emptyBottle.id
-        this.emptyBottle.price = response.data.emptyBottle.price
-        this.emptyBottle.customerId = response.data.emptyBottle.customerId
-        this.emptyBottle.customerName = response.data.emptyBottle.customerName
-        this.emptyBottle.gasCylinderId = response.data.emptyBottle.gasCylinderId
-        this.emptyBottle.gasCylinderName = response.data.emptyBottle.gasCylinderName
-        this.emptyBottle.createTimeStr = response.data.emptyBottle.createTime
-        this.emptyBottle.total = response.data.emptyBottle.total
-        this.emptyBottle.sendBackNumber = response.data.emptyBottle.sendBackNumber
-        this.gasCylinder.id = this.emptyBottle.gasCylinderId
-        this.gasCylinder.name = this.emptyBottle.gasCylinderName
-        this.customer.id = this.emptyBottle.customerId
-        this.customer.name = this.emptyBottle.customerName
+      this.order.id = id
+      order.getById(id).then(response => {
+        this.customer = response.data.order.customer
+        this.orderItems = response.data.order.orderItems
+        this.order.createTimeStr = response.data.order.createTimeStr
       })
     },
     // 更新
     update() {
-      emptyBottle.update(this.emptyBottle).then(response => {
+      this.order.customer = this.customer
+      this.order.orderItems = this.orderItems
+      order.update(this.order).then(response => {
         return this.$message({
           type: 'success',
           message: '修改成功!'
         })
       }).then(resposne => {
-        this.$router.push({ path: '/emptyBottle' })
+        this.$router.push({ path: '/order' })
       })
     }
   }

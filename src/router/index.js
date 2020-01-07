@@ -137,6 +137,56 @@ export const constantRouterMap = [
     }]
   },
   {
+    path: '/bill',
+    component: Layout,
+    redirect: '/bill/list',
+    name: 'Bill',
+    meta: { title: '欠款管理', icon: 'peoples' },
+    children: [{
+      path: 'list',
+      name: 'BillList',
+      component: () => import('@/views/bill/list'),
+      meta: { title: '欠款列表', icon: 'peoples' }
+    },
+    {
+      path: 'save',
+      name: 'SaveBill',
+      component: () => import('@/views/bill/form'),
+      meta: { title: '添加欠款', icon: 'peoples' }
+    }, {
+      path: 'update/:id',
+      name: 'UpdateBill',
+      component: () => import('@/views/bill/form'),
+      meta: { title: '修改欠款', icon: 'peoples' },
+      hidden: true
+    }]
+  },
+  {
+    path: '/emptyBottle',
+    component: Layout,
+    redirect: '/emptyBottle/list',
+    name: 'EmptyBottle',
+    meta: { title: '空瓶统计', icon: 'peoples' },
+    children: [{
+      path: 'list',
+      name: 'EmptyBottleList',
+      component: () => import('@/views/emptyBottle/list'),
+      meta: { title: '客户空瓶列表', icon: 'peoples' }
+    },
+    {
+      path: 'save',
+      name: 'SaveEmptyBottle',
+      component: () => import('@/views/emptyBottle/form'),
+      meta: { title: '添加客户空瓶', icon: 'peoples' }
+    }, {
+      path: 'update/:id',
+      name: 'UpdateEmptyBottle',
+      component: () => import('@/views/emptyBottle/form'),
+      meta: { title: '修改客户空瓶', icon: 'peoples' },
+      hidden: true
+    }]
+  },
+  {
     path: '/staff',
     component: Layout,
     redirect: '/staff/list',

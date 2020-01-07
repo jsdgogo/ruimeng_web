@@ -3,7 +3,7 @@
     <!--查询表单-->
     <el-form :inline="true" class="demo-form-inline" >
       <el-form-item>
-        <el-input v-model.trim="search" placeholder="客户名 气瓶名" />
+        <el-input v-model.trim="search" placeholder="姓名 微信 地址 电话 联系人" />
       </el-form-item>
 
       <el-form-item label="创建时间">
@@ -33,7 +33,7 @@
       v-loading="listLoading"
       :data="list"
       element-loading-text="数据加载中"
-      bempty-bottle
+      border
       fit
       highlight-current-row>
       <el-table-column
@@ -43,17 +43,16 @@
         align="center"/>
 
       <el-table-column prop="customerName" label="客户名" width="180" />
-      <el-table-column prop="gasCylinderName" label="空瓶类型" width="240"/>
-      <el-table-column prop="price" label="单价" width="140"/>
-      <el-table-column prop="total" label="所欠空瓶总数" width="140"/>
-      <el-table-column prop="sendBackNumber" label="已归还数量" width="140"/>
-      <el-table-column prop="nowNumber" label="未归还数量" width="140"/>
+
+      <el-table-column prop="quantity" label="总数量" width="240"/>
+
+      <el-table-column prop="totalPrice" label="总金额" width="140"/>
 
       <el-table-column prop="createTime" label="创建时间" width="180"/>
       <el-table-column prop="updateTime" label="修改时间" width="180"/>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <router-link :to="'/emptyBottle/update/'+scope.row.id">
+          <router-link :to="'/order/update/'+scope.row.id">
             <el-button type="primary" size="medium" icon="el-icon-edit">修改</el-button>
           </router-link>
           <el-button type="danger" size="medium" icon="el-icon-delete" @click="removeById(scope.row.id)">删除</el-button>
@@ -74,7 +73,7 @@
 </template>
 
 <script>
-import emptyBottle from '@/api/emptyBottle'
+import order from '@/api/order'
 export default {
 
   data() { // 定义数据
@@ -106,7 +105,7 @@ export default {
     },
     getPageList() {
       this.listLoading = true
-      emptyBottle.getPageList(this.index, this.size, this.search, this.beginTime, this.endTime).then(response => {
+      order.getPageList(this.index, this.size, this.search, this.beginTime, this.endTime).then(response => {
         this.total = response.data.page.total
         this.index = response.data.page.current
         this.size = response.data.page.size
@@ -120,7 +119,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        return emptyBottle.removeById(id)
+        return order.removeById(id)
       }).then(() => { // 如果上一个then成功则执行此处的then回调
         this.getPageList()
         this.$message({

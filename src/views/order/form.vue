@@ -110,12 +110,12 @@
       <el-table-column prop="name" label="气瓶类型" width="180" />
       <el-table-column prop="price" label="单价" width="140">
         <template slot-scope="scope">
-          <el-input v-model.trim.trim="scope.row.price" />
+          <el-input v-model.trim="scope.row.price" />
         </template>
       </el-table-column>
       <el-table-column prop="quantity" label="数量" width="140">
         <template slot-scope="scope">
-          <el-input v-model.trim.trim="scope.row.quantity" />
+          <el-input v-model.trim="scope.row.quantity" />
         </template>
       </el-table-column>
       <el-table-column prop="total" label="金额" width="140" >
