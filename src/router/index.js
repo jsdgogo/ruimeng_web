@@ -87,26 +87,26 @@ export const constantRouterMap = [
     }]
   },
   // {
-  //   path: '/emptyBottle',
+  //   path: '/customerEmptyBottle',
   //   component: Layout,
-  //   redirect: '/emptyBottle/list',
-  //   name: 'EmptyBottle',
+  //   redirect: '/customerEmptyBottle/list',
+  //   name: 'customerEmptyBottle',
   //   meta: { title: '空瓶管理', icon: 'peoples' },
   //   children: [{
   //     path: 'list',
-  //     name: 'EmptyBottleList',
-  //     component: () => import('@/views/emptyBottle/list'),
+  //     name: 'customerEmptyBottleList',
+  //     component: () => import('@/views/customerEmptyBottle/list'),
   //     meta: { title: '空瓶列表', icon: 'peoples' }
   //   },
   //   {
   //     path: 'save',
-  //     name: 'SaveEmptyBottle',
-  //     component: () => import('@/views/emptyBottle/form'),
+  //     name: 'SavecustomerEmptyBottle',
+  //     component: () => import('@/views/customerEmptyBottle/form'),
   //     meta: { title: '添加空瓶', icon: 'peoples' }
   //   }, {
   //     path: 'update/:id',
-  //     name: 'UpdateEmptyBottle',
-  //     component: () => import('@/views/emptyBottle/form'),
+  //     name: 'UpdatecustomerEmptyBottle',
+  //     component: () => import('@/views/customerEmptyBottle/form'),
   //     meta: { title: '修改空瓶', icon: 'peoples' },
   //     hidden: true
   //   }]
@@ -162,26 +162,26 @@ export const constantRouterMap = [
     }]
   },
   {
-    path: '/emptyBottle',
+    path: '/customerEmptyBottle',
     component: Layout,
-    redirect: '/emptyBottle/list',
-    name: 'EmptyBottle',
+    redirect: '/customerEmptyBottle/list',
+    name: 'customerEmptyBottle',
     meta: { title: '空瓶统计', icon: 'peoples' },
     children: [{
       path: 'list',
-      name: 'EmptyBottleList',
-      component: () => import('@/views/emptyBottle/list'),
+      name: 'CustomerEmptyBottleList',
+      component: () => import('@/views/customerEmptyBottle/list'),
       meta: { title: '客户空瓶列表', icon: 'peoples' }
     },
     {
       path: 'save',
-      name: 'SaveEmptyBottle',
-      component: () => import('@/views/emptyBottle/form'),
+      name: 'SaveCustomerEmptyBottle',
+      component: () => import('@/views/customerEmptyBottle/form'),
       meta: { title: '添加客户空瓶', icon: 'peoples' }
     }, {
       path: 'update/:id',
-      name: 'UpdateEmptyBottle',
-      component: () => import('@/views/emptyBottle/form'),
+      name: 'UpdateCustomerEmptyBottle',
+      component: () => import('@/views/customerEmptyBottle/form'),
       meta: { title: '修改客户空瓶', icon: 'peoples' },
       hidden: true
     }]

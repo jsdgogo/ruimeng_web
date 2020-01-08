@@ -53,7 +53,7 @@
       <el-table-column prop="updateTime" label="修改时间" width="180"/>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <router-link :to="'/emptyBottle/update/'+scope.row.id">
+          <router-link :to="'/customerEmptyBottle/update/'+scope.row.id">
             <el-button type="primary" size="medium" icon="el-icon-edit">修改</el-button>
           </router-link>
           <el-button type="danger" size="medium" icon="el-icon-delete" @click="removeById(scope.row.id)">删除</el-button>
@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import emptyBottle from '@/api/emptyBottle'
+import customerEmptyBottle from '@/api/customerEmptyBottle'
 export default {
 
   data() { // 定义数据
@@ -106,7 +106,7 @@ export default {
     },
     getPageList() {
       this.listLoading = true
-      emptyBottle.getPageList(this.index, this.size, this.search, this.beginTime, this.endTime).then(response => {
+      customerEmptyBottle.getPageList(this.index, this.size, this.search, this.beginTime, this.endTime).then(response => {
         this.total = response.data.page.total
         this.index = response.data.page.current
         this.size = response.data.page.size
@@ -120,7 +120,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        return emptyBottle.removeById(id)
+        return customerEmptyBottle.removeById(id)
       }).then(() => { // 如果上一个then成功则执行此处的then回调
         this.getPageList()
         this.$message({

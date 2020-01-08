@@ -108,19 +108,19 @@
       fit
       highlight-current-row>
       <el-table-column prop="name" label="气瓶类型" width="180" />
-      <el-table-column prop="price" label="单价" width="140">
+      <el-table-column prop="price" label="单价" width="205">
         <template slot-scope="scope">
-          <el-input v-model.trim="scope.row.price" />
+          <el-input-number v-model.trim="scope.row.price" :precision="4" :step="0.1" :min="0" @input="totalChange"/>
         </template>
       </el-table-column>
-      <el-table-column prop="quantity" label="数量" width="140">
+      <el-table-column prop="quantity" label="数量" width="205">
         <template slot-scope="scope">
-          <el-input v-model.trim="scope.row.quantity" />
+          <el-input-number v-model.trim="scope.row.quantity" :min="1" @input="totalChange"/>
         </template>
       </el-table-column>
       <el-table-column prop="total" label="金额" width="140" >
-        <template v-if="scope.row.price&&scope.row.quantity" slot-scope="scope">
-          {{ (scope.row.total = scope.row.price *scope.row.quantity) }}
+        <template v-if="scope.row.price&&scope.row.quantity" slot-scope="scope" >
+          {{ (scope.row.total = scope.row.price * scope.row.quantity).toFixed(4) }}
         </template>
       </el-table-column>
       <el-table-column prop="inventory" label="气瓶库存" width="140"/>
@@ -131,6 +131,14 @@
       </el-table-column>
     </el-table>
     <br>
+    <el-form :inline="true" class="demo-form-inline" >
+      <el-form-item label="订单总金额:">
+        <el-input v-model.trim="order.total" placeholder="等待计算" readonly/>
+      </el-form-item>
+      <el-form-item label="客户付款金额:">
+        <el-input-number v-model.trim="order.paid" :precision="4" :step="0.1" :min="0" />
+      </el-form-item>
+    </el-form>
     <el-button slot="reference" type="primary" style="display:block;margin:0 auto" @click="saveOrUpdate()">生成订单</el-button>
   </div>
 </template>
@@ -168,7 +176,8 @@ export default {
       saveBtnDisabled: false, // 保存按钮是否禁用,
       order: {
         id: '',
-        paid,
+        paid: '',
+        total: '',
         createTimeStr: '',
         orderItems: [],
         customer: {}
@@ -186,6 +195,14 @@ export default {
     this.init()
   },
   methods: {
+    totalChange() {
+      var orderTotal = 0
+      this.orderItems.forEach(function(item, index) {
+        orderTotal = orderTotal + item.total
+        console.log(orderTotal)
+      })
+      this.order.total = orderTotal.toFixed(4)
+    },
     cancel() {
       this.$router.push({ path: '/order' })
       return this.$message({

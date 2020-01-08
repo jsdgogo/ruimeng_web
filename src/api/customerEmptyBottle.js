@@ -3,7 +3,7 @@ import request from '@/utils/request'
 export default {
   getPageList(index, size, search, beginTime, endTIme) {
     return request({
-      url: '/emptyBottle/findByPage',
+      url: '/customerEmptyBottle/findByPage',
       method: 'post',
       data: {
         index,
@@ -16,30 +16,30 @@ export default {
   },
   removeById(id) {
     return request({
-      url: '/emptyBottle/deleteById',
+      url: '/customerEmptyBottle/deleteById',
       method: 'get',
       params: { id }
     })
   },
-  save(emptyBottle) {
+  save(customerEmptyBottle) {
     return request({
-      url: '/emptyBottle/save',
+      url: '/customerEmptyBottle/save',
       method: 'post',
-      data: emptyBottle
+      data: customerEmptyBottle
     })
   },
   getById(id) {
     return request({
-      url: '/emptyBottle/getById',
+      url: '/customerEmptyBottle/getById',
       method: 'get',
       params: { id }
     })
   },
-  update(emptyBottle) {
+  update(customerEmptyBottle) {
     return request({
-      url: '/emptyBottle/update',
+      url: '/customerEmptyBottle/update',
       method: 'post',
-      data: emptyBottle
+      data: customerEmptyBottle
     })
   }
 }

@@ -94,25 +94,25 @@
         </el-popover>
       </el-form-item>
     </el-form>
-    <el-form ref="emptyBottle" :model="emptyBottle" label-width="80px">
+    <el-form ref="customerEmptyBottle" :model="customerEmptyBottle" label-width="80px">
       <el-form-item label="所欠总数">
         <el-col :span="8">
-          <el-input-number v-model="emptyBottle.total" :min="1"/>
+          <el-input-number v-model="customerEmptyBottle.total" :min="1"/>
         </el-col>
       </el-form-item>
       <el-form-item label="已归还">
         <el-col :span="8">
-          <el-input-number v-model="emptyBottle.sendBackNumber" :min="1" />
+          <el-input-number v-model="customerEmptyBottle.sendBackNumber" :min="1" />
         </el-col>
       </el-form-item>
       <el-form-item label="单价">
         <el-col :span="8">
-          <el-input-number v-model="emptyBottle.price" :precision="4" :step="0.1" :min="0"/>
+          <el-input-number v-model="customerEmptyBottle.price" :precision="4" :step="0.1" :min="0"/>
         </el-col>
       </el-form-item>
       <el-form-item label="创建时间">
         <el-date-picker
-          v-model.trim="emptyBottle.createTimeStr"
+          v-model.trim="customerEmptyBottle.createTimeStr"
           type="datetime"
           placeholder="创建时间"
           value-format="yyyy-MM-dd HH:mm:ss"
@@ -126,7 +126,7 @@
     </el-form>
 </div></template>
 <script>
-import emptyBottle from '@/api/emptyBottle'
+import customerEmptyBottle from '@/api/customerEmptyBottle'
 import customer from '@/api/customer'
 import gasCylinder from '@/api/gasCylinder'
 export default {
@@ -151,7 +151,7 @@ export default {
         name: ''
       },
       saveBtnDisabled: false, // 保存按钮是否禁用,
-      emptyBottle: {
+      customerEmptyBottle: {
         id: '',
         createTimeStr: '',
         customerId: '',
@@ -176,7 +176,7 @@ export default {
   },
   methods: {
     cancel() {
-      this.$router.push({ path: '/emptyBottle' })
+      this.$router.push({ path: '/customerEmptyBottle' })
       return this.$message({
         type: 'error',
         message: '已取消!'
@@ -188,14 +188,14 @@ export default {
         console.log(id)
         this.getById(id)
       } else {
-        this.emptyBottle = { ...emptyBottle }
+        this.customerEmptyBottle = { ...customerEmptyBottle }
       }
     },
     addCustomer(id, name) {
       this.customer.id = id
       this.customer.name = name
-      this.emptyBottle.customerId = this.customer.id
-      this.emptyBottle.customerName = this.customer.name
+      this.customerEmptyBottle.customerId = this.customer.id
+      this.customerEmptyBottle.customerName = this.customer.name
     },
     addCustomers() {
       this.size = 8
@@ -226,8 +226,8 @@ export default {
     addGasCylinder(id, name) {
       this.gasCylinder.id = id
       this.gasCylinder.name = name
-      this.emptyBottle.gasCylinderId = this.gasCylinder.id
-      this.emptyBottle.gasCylinderName = this.gasCylinder.name
+      this.customerEmptyBottle.gasCylinderId = this.gasCylinder.id
+      this.customerEmptyBottle.gasCylinderName = this.gasCylinder.name
     },
     addorderItems() {
       this.size = 8
@@ -259,50 +259,50 @@ export default {
     // 保存
     saveOrUpdate() {
       this.saveBtnDisabled = true
-      if (!this.emptyBottle.id) {
+      if (!this.customerEmptyBottle.id) {
         this.save()
       } else {
         this.update()
       }
     },
     save() {
-      emptyBottle.save(this.emptyBottle).then(response => {
+      customerEmptyBottle.save(this.customerEmptyBottle).then(response => {
         return this.$message({
           type: 'success',
           message: '保存成功!'
         })
       }).then(resposne => {
-        this.$router.push({ path: '/emptyBottle' })
+        this.$router.push({ path: '/customerEmptyBottle' })
       })
     },
     // 根据id查询记录
     getById(id) {
-      this.emptyBottle.id = id
-      emptyBottle.getById(id).then(response => {
-        this.emptyBottle.id = response.data.emptyBottle.id
-        this.emptyBottle.price = response.data.emptyBottle.price
-        this.emptyBottle.customerId = response.data.emptyBottle.customerId
-        this.emptyBottle.customerName = response.data.emptyBottle.customerName
-        this.emptyBottle.gasCylinderId = response.data.emptyBottle.gasCylinderId
-        this.emptyBottle.gasCylinderName = response.data.emptyBottle.gasCylinderName
-        this.emptyBottle.createTimeStr = response.data.emptyBottle.createTime
-        this.emptyBottle.total = response.data.emptyBottle.total
-        this.emptyBottle.sendBackNumber = response.data.emptyBottle.sendBackNumber
-        this.gasCylinder.id = this.emptyBottle.gasCylinderId
-        this.gasCylinder.name = this.emptyBottle.gasCylinderName
-        this.customer.id = this.emptyBottle.customerId
-        this.customer.name = this.emptyBottle.customerName
+      this.customerEmptyBottle.id = id
+      customerEmptyBottle.getById(id).then(response => {
+        this.customerEmptyBottle.id = response.data.customerEmptyBottle.id
+        this.customerEmptyBottle.price = response.data.customerEmptyBottle.price
+        this.customerEmptyBottle.customerId = response.data.customerEmptyBottle.customerId
+        this.customerEmptyBottle.customerName = response.data.customerEmptyBottle.customerName
+        this.customerEmptyBottle.gasCylinderId = response.data.customerEmptyBottle.gasCylinderId
+        this.customerEmptyBottle.gasCylinderName = response.data.customerEmptyBottle.gasCylinderName
+        this.customerEmptyBottle.createTimeStr = response.data.customerEmptyBottle.createTime
+        this.customerEmptyBottle.total = response.data.customerEmptyBottle.total
+        this.customerEmptyBottle.sendBackNumber = response.data.customerEmptyBottle.sendBackNumber
+        this.gasCylinder.id = this.customerEmptyBottle.gasCylinderId
+        this.gasCylinder.name = this.customerEmptyBottle.gasCylinderName
+        this.customer.id = this.customerEmptyBottle.customerId
+        this.customer.name = this.customerEmptyBottle.customerName
       })
     },
     // 更新
     update() {
-      emptyBottle.update(this.emptyBottle).then(response => {
+      customerEmptyBottle.update(this.customerEmptyBottle).then(response => {
         return this.$message({
           type: 'success',
           message: '修改成功!'
         })
       }).then(resposne => {
-        this.$router.push({ path: '/emptyBottle' })
+        this.$router.push({ path: '/customerEmptyBottle' })
       })
     }
   }
