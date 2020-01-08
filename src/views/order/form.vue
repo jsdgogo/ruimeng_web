@@ -168,6 +168,7 @@ export default {
       saveBtnDisabled: false, // 保存按钮是否禁用,
       order: {
         id: '',
+        paid,
         createTimeStr: '',
         orderItems: [],
         customer: {}
@@ -195,7 +196,6 @@ export default {
     init() {
       if (this.$route.params && this.$route.params.id) {
         const id = this.$route.params.id
-        console.log(id)
         this.getById(id)
       } else {
         this.order = { ...order }

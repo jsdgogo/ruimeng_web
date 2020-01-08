@@ -47,6 +47,7 @@
       <el-table-column prop="quantity" label="总数量" width="240"/>
 
       <el-table-column prop="totalPrice" label="总金额" width="140"/>
+      <el-table-column prop="paid" label="客户付款金额" width="140"/>
 
       <el-table-column prop="createTime" label="创建时间" width="180"/>
       <el-table-column prop="updateTime" label="修改时间" width="180"/>
