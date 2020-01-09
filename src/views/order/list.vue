@@ -27,6 +27,7 @@
 
       <el-button type="primary" icon="el-icon-search" @click="getPageList(index=1,size,search,beginTime,endTime)">查询</el-button>
       <el-button type="default" @click="resetData()">清空</el-button>
+      <el-button type="primary" ><a :href="baseURL+'/order/exportOrder'" >导出查询结果</a></el-button>
     </el-form>
     <!-- 表格 -->
     <el-table
@@ -75,10 +76,12 @@
 
 <script>
 import order from '@/api/order'
+import axios from 'axios';
 export default {
 
   data() { // 定义数据
     return {
+      baseURL: process.env.BASE_API,
       listLoading: true, // 是否显示loading信息
       list: null, // 数据列表
       total: 0, // 总记录数
@@ -115,7 +118,7 @@ export default {
       })
     },
     removeById(id) {
-      this.$confirm('此操作将永久删除该客户 是否继续?', '提示', {
+      this.$confirm('此操作将永久删除该订单 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -139,6 +142,8 @@ export default {
     resetData() {
       this.search = null
       this.getPageList()
+      this.beginTime = null
+      this.endTime = null
     }
   }}
 

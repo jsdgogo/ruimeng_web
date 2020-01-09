@@ -64,8 +64,8 @@ export default {
       if (this.$route.params && this.$route.params.id) {
         const id = this.$route.params.id
         this.getById(id)
-      } else {
-        this.gasCylinder = { ...gasCylinder }
+      }else{
+        this.gasCylinder = {}
       }
     },
     // 保存

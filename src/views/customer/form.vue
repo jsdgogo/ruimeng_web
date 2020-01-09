@@ -71,8 +71,8 @@ export default {
       if (this.$route.params && this.$route.params.id) {
         const id = this.$route.params.id
         this.getById(id)
-      } else {
-        this.customer = { ...customer }
+      }else{
+        this.customer = {}
       }
     },
     // 保存
@@ -107,7 +107,6 @@ export default {
     },
     // 更新
     update() {
-      console.log(this.customer)
       customer.update(this.customer).then(response => {
         return this.$message({
           type: 'success',

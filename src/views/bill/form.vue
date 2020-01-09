@@ -195,10 +195,9 @@ export default {
     init() {
       if (this.$route.params && this.$route.params.id) {
         const id = this.$route.params.id
-        console.log(id)
         this.getById(id)
-      } else {
-        this.order = { ...order }
+      }else{
+        this.order = {}
       }
     },
     removeGasCylinder(gasCylinderId) {

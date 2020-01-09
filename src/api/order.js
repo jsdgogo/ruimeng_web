@@ -51,5 +51,15 @@ export default {
         'Content-Type': 'application/json;charset=UTF-8'
       }
     })
+  },
+  exportOrder(beginTime, endTime) {
+    return request({
+      url: '/order/exportOrder',
+      method: 'get',
+      params: {
+        beginTime,
+        endTime
+      }
+    })
   }
 }

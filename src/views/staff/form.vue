@@ -60,7 +60,6 @@ export default {
       this.init()
     }
   },
-
   // 页面渲染前调用
   created() {
     this.init()
@@ -77,8 +76,8 @@ export default {
       if (this.$route.params && this.$route.params.id) {
         const id = this.$route.params.id
         this.getById(id)
-      } else {
-        this.staff = { ...staff }
+      }else{
+        this.staff = {}
       }
     },
     // 保存

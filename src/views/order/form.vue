@@ -47,7 +47,7 @@
             layout="total, sizes, prev, pager, next, jumper"
             @size-change="handleCustomerSizeChange"
             @current-change="handleCustomerCurrentChange"/>
-          <el-button slot="reference" type="primary" @click="addCustomers()">选择客户</el-button>
+          <el-button  v-if="order.id==0" slot="reference" type="primary" @click="addCustomers()"  >选择客户</el-button>
         </el-popover>
       </el-form-item>
       <el-form-item>
@@ -133,7 +133,7 @@
     <br>
     <el-form :inline="true" class="demo-form-inline" >
       <el-form-item label="订单总金额:">
-        <el-input v-model.trim="order.total" placeholder="等待计算" readonly/>
+        <el-input v-model="order.total" placeholder="等待计算" readonly/>
       </el-form-item>
       <el-form-item label="客户付款金额:">
         <el-input-number v-model.trim="order.paid" :precision="4" :step="0.1" :min="0" />
@@ -149,6 +149,7 @@ import gasCylinder from '@/api/gasCylinder'
 export default {
   data() {
     return {
+      addCustomersButton: false,
       listLoading: true, // 是否显示loading信息
       customerList: [], // 数据列表
       gasCylinderList: [],
@@ -160,22 +161,22 @@ export default {
       endTime: '',
       id: '',
       customer: {
-        customerId: '',
+        customerId: 0,
         customerName: '',
         address: ''
       },
       gasCylinder: {
-        gasCylinderId: '',
+        gasCylinderId: 0,
         name: '',
         price: '',
         quantity: '',
         total: this.quantity * this.price,
-        id: ''
+        id: 0
       },
       orderItems: [],
       saveBtnDisabled: false, // 保存按钮是否禁用,
       order: {
-        id: '',
+        id: 0,
         paid: '',
         total: '',
         createTimeStr: '',
@@ -198,10 +199,13 @@ export default {
     totalChange() {
       var orderTotal = 0
       this.orderItems.forEach(function(item, index) {
-        orderTotal = orderTotal + item.total
-        console.log(orderTotal)
+        if(item.total>0){
+          orderTotal = orderTotal + item.total
+        }
       })
-      this.order.total = orderTotal.toFixed(4)
+      if(orderTotal>=0){
+        this.order.total = orderTotal.toFixed(4)
+      }
     },
     cancel() {
       this.$router.push({ path: '/order' })
@@ -214,8 +218,10 @@ export default {
       if (this.$route.params && this.$route.params.id) {
         const id = this.$route.params.id
         this.getById(id)
-      } else {
-        this.order = { ...order }
+      }else{
+        this.orderItems = []
+        this.customer = {}
+        this.order = {}
       }
     },
     removeGasCylinder(gasCylinderId) {
@@ -225,6 +231,7 @@ export default {
         }
       })
       this.orderItems.splice(index, 1)
+      this.totalChange()
     },
     addCustomer(id, name, address) {
       this.customer.customerId = id
@@ -258,8 +265,16 @@ export default {
       })
     },
     addGasCylinder(gasCylinderId, name, inventory) {
+      var canAdd = true
+      this.orderItems.forEach(function(item, index) {
+        if(item.gasCylinderId==gasCylinderId){
+         canAdd = false
+        }
+      })
+      if(canAdd){
       var gas = { gasCylinderId, name, inventory }
       this.orderItems.push(gas)
+      }
     },
     addorderItems() {
       this.size = 8
@@ -316,6 +331,8 @@ export default {
         this.customer = response.data.order.customer
         this.orderItems = response.data.order.orderItems
         this.order.createTimeStr = response.data.order.createTimeStr
+        this.order.total = response.data.order.total
+        this.order.paid = response.data.order.paid
       })
     },
     // 更新
