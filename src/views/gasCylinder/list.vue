@@ -3,7 +3,7 @@
     <!--查询表单-->
     <el-form :inline="true" class="demo-form-inline" >
       <el-form-item>
-        <el-input v-model.trim="search" placeholder="名称 类型 库存 单价" />
+        <el-input v-model.trim="search" placeholder="气瓶类型 库存 单价" />
       </el-form-item>
 
       <!-- <el-form-item label="创建时间">
@@ -42,9 +42,7 @@
         width="70"
         align="center"/>
 
-      <el-table-column prop="name" label="名称" width="240" />
-
-      <el-table-column prop="type" label="类型" width="240"/>
+      <el-table-column prop="name" label="气瓶类型" width="240" />
 
       <el-table-column prop="inventory" label="库存" width="140"/>
 
@@ -115,7 +113,7 @@ export default {
       })
     },
     removeById(id) {
-      this.$confirm('此操作将永久删除该客户 是否继续?', '提示', {
+      this.$confirm('此操作将永久删除 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

@@ -3,10 +3,10 @@
     <!--查询表单-->
     <el-form :inline="true" class="demo-form-inline" >
       <el-form-item>
-        <el-input v-model.trim="search" placeholder="客户名 气瓶名" />
+        <el-input v-model.trim="search" placeholder="名称 类型 库存 单价" />
       </el-form-item>
 
-      <el-form-item label="创建时间">
+      <!-- <el-form-item label="创建时间">
         <el-date-picker
           v-model.trim="beginTime"
           type="datetime"
@@ -23,9 +23,9 @@
           value-format="yyyy-MM-dd HH:mm:ss"
           default-time="00:00:00"
         />
-      </el-form-item>
+      </el-form-item> -->
 
-      <el-button type="primary" icon="el-icon-search" @click="getPageList(index=1,size,search,beginTime,endTime)">查询</el-button>
+      <el-button type="primary" icon="el-icon-search" @click="getPageList(index=1,size,search)">查询</el-button>
       <el-button type="default" @click="resetData()">清空</el-button>
     </el-form>
     <!-- 表格 -->
@@ -33,7 +33,7 @@
       v-loading="listLoading"
       :data="list"
       element-loading-text="数据加载中"
-      bempty-bottle
+      border
       fit
       highlight-current-row>
       <el-table-column
@@ -42,18 +42,16 @@
         width="70"
         align="center"/>
 
-      <el-table-column prop="customerName" label="客户名" width="180" />
-      <el-table-column prop="gasCylinderName" label="空瓶类型" width="240"/>
-      <el-table-column prop="price" label="单价" width="140"/>
-      <el-table-column prop="total" label="所欠空瓶总数" width="140"/>
-      <el-table-column prop="sendBackNumber" label="已归还数量" width="140"/>
-      <el-table-column prop="nowNumber" label="未归还数量" width="140"/>
+      <el-table-column prop="gasCylinderName" label="空瓶名" width="240" />
 
-      <el-table-column prop="createTime" label="创建时间" width="180"/>
-      <el-table-column prop="updateTime" label="修改时间" width="180"/>
+      <el-table-column prop="number" label="数量" width="140"/>
+
+      <el-table-column prop="price" label="单价" width="140"/>
+      <el-table-column prop="createTime" label="创建时间" width="240"/>
+      <el-table-column prop="updateTime" label="修改时间" width="240"/>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <router-link :to="'/customerEmptyBottle/update/'+scope.row.id">
+          <router-link :to="'/emptyBottle/update/'+scope.row.id">
             <el-button type="primary" size="medium" icon="el-icon-edit">修改</el-button>
           </router-link>
           <el-button type="danger" size="medium" icon="el-icon-delete" @click="removeById(scope.row.id)">删除</el-button>
@@ -74,7 +72,7 @@
 </template>
 
 <script>
-import customerEmptyBottle from '@/api/customerEmptyBottle'
+import emptyBottle from '@/api/emptyBottle'
 export default {
 
   data() { // 定义数据
@@ -84,9 +82,9 @@ export default {
       total: 0, // 总记录数
       index: 1, // 页码
       size: 8, // 每页记录数
-      search: '', // 查询条件
-      beginTime: '',
-      endTime: ''
+      search: '' // 查询条件
+      // beginTime: '',
+      // endTime: ''
     }
   },
 
@@ -106,7 +104,7 @@ export default {
     },
     getPageList() {
       this.listLoading = true
-      customerEmptyBottle.getPageList(this.index, this.size, this.search, this.beginTime, this.endTime).then(response => {
+      emptyBottle.getPageList(this.index, this.size, this.search).then(response => {
         this.total = response.data.page.total
         this.index = response.data.page.current
         this.size = response.data.page.size
@@ -120,7 +118,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        return customerEmptyBottle.removeById(id)
+        return emptyBottle.removeById(id)
       }).then(() => { // 如果上一个then成功则执行此处的then回调
         this.getPageList()
         this.$message({

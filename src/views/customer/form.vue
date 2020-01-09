@@ -71,7 +71,7 @@ export default {
       if (this.$route.params && this.$route.params.id) {
         const id = this.$route.params.id
         this.getById(id)
-      }else{
+      } else {
         this.customer = {}
       }
     },

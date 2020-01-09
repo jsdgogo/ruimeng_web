@@ -1,24 +1,19 @@
 <template>
   <div class="app-container">
-    <el-form ref="form" :model="gasCylinder" label-width="100px" >
-      <el-form-item label="气瓶名">
-        <el-col :span="8">
+    <el-form ref="gasCylinder" :model="gasCylinder" label-width="100px" >
+      <el-form-item label="气瓶类型">
+        <el-col :span="4">
           <el-input v-model.trim="gasCylinder.name" />
-        </el-col>
-      </el-form-item>
-      <el-form-item label="类型">
-        <el-col :span="8">
-          <el-input v-model.trim="gasCylinder.type"/>
         </el-col>
       </el-form-item>
       <el-form-item label="库存">
         <el-col :span="8">
-          <el-input v-model.trim="gasCylinder.inventory"/>
+          <el-input-number v-model="gasCylinder.inventory" :min="1" />
         </el-col>
       </el-form-item>
       <el-form-item label="单价">
         <el-col :span="8">
-          <el-input v-model.trim="gasCylinder.price"/>
+          <el-input-number v-model="gasCylinder.price" :precision="4" :step="0.1" :min="0"/>
         </el-col>
       </el-form-item>
       <el-form-item>
@@ -64,7 +59,7 @@ export default {
       if (this.$route.params && this.$route.params.id) {
         const id = this.$route.params.id
         this.getById(id)
-      }else{
+      } else {
         this.gasCylinder = {}
       }
     },

@@ -9,15 +9,15 @@ const service = axios.create({
   baseURL: process.env.BASE_API, // api 的 base_url
   timeout: 5000 // 请求超时时间
 })
-// const downloadUrl = url => {
-//   const iframe = document.createElement('iframe')
-//   iframe.style.display = 'none'
-//   iframe.src = url
-//   iframe.onload = function() {
-//     document.body.removeChild(iframe)
-//   }
-//   document.body.appendChild(iframe)
-// }
+const downloadUrl = url => {
+  const iframe = document.createElement('iframe')
+  iframe.style.display = 'none'
+  iframe.src = url
+  iframe.onload = function() {
+    document.body.removeChild(iframe)
+  }
+  document.body.appendChild(iframe)
+}
 // request拦截器
 service.interceptors.request.use(
   config => {
@@ -49,12 +49,12 @@ service.interceptors.response.use(
     /**
      * code为非20000是抛错 可结合自己业务进行修改
      */
-    // if (response.headers && (response.headers['content-type'] === 'application/ms-excel;charset=UTF-8')) {
-    //   downloadUrl(response.request.responseURL)
-    //   response.data = ''
-    //   // response.headers['content-type'] = 'text/json'
-    //   return response
-    // }
+    if (response.headers && (response.headers['content-type'] === 'application/ms-excel;charset=UTF-8')) {
+      downloadUrl(response.request.responseURL)
+      response.data = ''
+      // response.headers['content-type'] = 'text/json'
+      return response
+    }
 
     const res = response.data
     if (res.code !== 0) {

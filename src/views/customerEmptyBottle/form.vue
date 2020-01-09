@@ -44,7 +44,7 @@
             layout="total, sizes, prev, pager, next, jumper"
             @size-change="handleCustomerSizeChange"
             @current-change="handleCustomerCurrentChange"/>
-          <el-button slot="reference" type="primary" @click="addCustomers()">选择客户</el-button>
+          <el-button slot="reference" :disabled="addCustomersButton" type="primary" @click="addCustomers()">选择客户</el-button>
         </el-popover>
       </el-form-item>
 
@@ -132,6 +132,7 @@ import gasCylinder from '@/api/gasCylinder'
 export default {
   data() {
     return {
+      addCustomersButton: false,
       listLoading: true, // 是否显示loading信息
       gasCylinderList: [],
       customerList: [],
@@ -184,12 +185,12 @@ export default {
     },
     init() {
       if (this.$route.params && this.$route.params.id) {
+        this.addCustomersButton = true
         const id = this.$route.params.id
         this.getById(id)
-      }else{
+      } else {
+        this.addCustomersButton = false
         this.customerEmptyBottle = {}
-        this.customer = {}
-        this.gasCylinder = {}
       }
     },
     addCustomer(id, name) {

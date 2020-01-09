@@ -1,11 +1,8 @@
 <template>
   <div class="app-container">
-    <el-form :inline="true" class="demo-form-inline" >
+    <el-form :inline="true" class="demo-form-inline" label-width="100px">
       <el-form-item label="客户名称:">
         <el-input v-model.trim="customer.customerName" placeholder="未选择" readonly/>
-      </el-form-item>
-      <el-form-item label="地址:">
-        <el-input v-model.trim="customer.address" placeholder="未选择" readonly/>
       </el-form-item>
       <el-form-item>
         <el-popover
@@ -34,7 +31,7 @@
             <el-table-column width="120" property="wechatId" label="微信"/>
             <el-table-column label="操作" align="center">
               <template slot-scope="scope">
-                <el-button type="success" size="medium" icon="el-icon-success" @click="addCustomer(scope.row.id,scope.row.name,scope.row.address)">添加</el-button>
+                <el-button type="success" size="medium" icon="el-icon-success" @click="addCustomer(scope.row.id,scope.row.name)">添加</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -47,131 +44,73 @@
             layout="total, sizes, prev, pager, next, jumper"
             @size-change="handleCustomerSizeChange"
             @current-change="handleCustomerCurrentChange"/>
-          <el-button slot="reference" type="primary" @click="addCustomers()">选择客户</el-button>
+          <el-button slot="reference" :disabled="addCustomersButton" type="primary" @click="addCustomers()" >选择客户</el-button>
         </el-popover>
-      </el-form-item>
-      <el-form-item>
-        <el-popover
-          placement="right"
-          width="600"
-          trigger="click">
-          <el-form :inline="true" class="demo-form-inline" >
-            <el-form-item>
-              <el-input v-model.trim="search" placeholder=" 类型 " />
-            </el-form-item>
-            <el-button type="primary" icon="el-icon-search" @click="getGasCylinderList(index=1,size,search)">查询</el-button>
-            <el-button type="default" @click="resetData()">清空</el-button>
-          </el-form>
-          <el-table
-            v-loading="listLoading"
-            :data="gasCylinderList"
-            element-loading-text="数据加载中"
-            border
-            fit
-            highlight-current-row>
-            <el-table-column width="70" property="id" label="id"/>
-            <el-table-column width="160" property="name" label="气瓶类型"/>
-            <el-table-column width="160" property="inventory" label="气瓶库存"/>
-            <el-table-column label="操作" align="center">
-              <template slot-scope="scope">
-                <el-button type="success" size="medium" icon="el-icon-success" @click="addGasCylinder(scope.row.id,scope.row.name,scope.row.inventory)">添加</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-          <el-pagination
-            :current-page="index"
-            :page-size="size"
-            :page-sizes="[8,10,15,30]"
-            :total="total"
-            style="padding: 30px 0; text-align: center;"
-            layout="total, sizes, prev, pager, next, jumper"
-            @size-change="handleorderItemsizeChange"
-            @current-change="handleGasCylinderCurrentChange"/>
-          <el-button slot="reference" type="primary" @click="addorderItems()">添加气瓶</el-button>
-        </el-popover>
-      </el-form-item>
-      <el-form-item label="创建时间">
-        <el-date-picker
-          v-model.trim="order.createTimeStr"
-          type="datetime"
-          placeholder="订单创建时间"
-          value-format="yyyy-MM-dd HH:mm:ss"
-          default-time="00:00:00"
-        />
       </el-form-item>
     </el-form>
-    <el-table
-      v-loading="false"
-      :data="orderItems"
-      element-loading-text="数据加载中"
-      border
-      fit
-      highlight-current-row>
-      <el-table-column prop="name" label="气瓶类型" width="180" />
-      <el-table-column prop="price" label="单价" width="140">
-        <template slot-scope="scope">
-          <el-input v-model.trim.trim="scope.row.price" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="quantity" label="数量" width="140">
-        <template slot-scope="scope">
-          <el-input v-model.trim.trim="scope.row.quantity" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="total" label="金额" width="140" >
-        <template v-if="scope.row.price&&scope.row.quantity" slot-scope="scope">
-          {{ (scope.row.total = scope.row.price *scope.row.quantity) }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="inventory" label="气瓶库存" width="140"/>
-      <el-table-column label="操作" align="center">
-        <template slot-scope="scope">
-          <el-button type="danger" size="medium" icon="el-icon-delete" @click="removeGasCylinder(scope.row.id)">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <br>
-    <el-button slot="reference" type="primary" style="display:block;margin:0 auto" @click="saveOrUpdate()">生成订单</el-button>
+    <el-form ref="bill" :model="bill" label-width="100px" >
+      <el-form-item label="总欠款">
+        <el-col :span="8">
+          <el-input-number v-model="bill.totalDebt" :precision="4" :step="0.1" :min="0"/>
+        </el-col>
+      </el-form-item>
+      <el-form-item label="已付款">
+        <el-col :span="8">
+          <el-input-number v-model="bill.paid" :precision="4" :step="0.1" :min="0"/>
+        </el-col>
+      </el-form-item>
+      <el-form-item label="订单欠款">
+        <el-col :span="8">
+          <el-input-number v-model="bill.orderDebt" :precision="4" :step="0.1" :min="0"/>
+        </el-col>
+      </el-form-item>
+      <el-form-item label="订单总金额">
+        <el-col :span="8">
+          <el-input-number v-model="bill.orderTotal" :precision="4" :step="0.1" :min="0"/>
+        </el-col>
+      </el-form-item>
+      <el-form-item label="空瓶总金额">
+        <el-col :span="8">
+          <el-input-number v-model="bill.emptyBottleTotal" :precision="4" :step="0.1" :min="0"/>
+        </el-col>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="saveOrUpdate">保存</el-button>
+        <el-button @click="cancel">取消</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 <script>
-import order from '@/api/order'
+import bill from '@/api/bill'
 import customer from '@/api/customer'
-import gasCylinder from '@/api/gasCylinder'
 export default {
   data() {
     return {
+      addCustomersButton: false,
       listLoading: true, // 是否显示loading信息
       customerList: [], // 数据列表
-      gasCylinderList: [],
       total: 0, // 总记录数
       index: 1, // 页码
       size: 8, // 每页记录数
       search: '', // 查询条件
       beginTime: '',
       endTime: '',
-      id: '',
       customer: {
-        customerId: '',
+        customerId: 0,
+        customerName: ''
+      },
+      bill: {
+        id: 0,
+        customerId: 0,
         customerName: '',
-        address: ''
+        totalDebt: 0,
+        orderDebt: 0,
+        orderTotal: 0,
+        paid: 0,
+        emptyBottleTotal: 0
       },
-      gasCylinder: {
-        gasCylinderId: '',
-        name: '',
-        price: '',
-        quantity: '',
-        total: this.quantity * this.price,
-        id: ''
-      },
-      orderItems: [],
-      saveBtnDisabled: false, // 保存按钮是否禁用,
-      order: {
-        id: '',
-        createTimeStr: '',
-        orderItems: [],
-        customer: {}
-      }
+      saveBtnDisabled: false // 保存按钮是否禁用,
     }
   },
   watch: {
@@ -185,33 +124,9 @@ export default {
     this.init()
   },
   methods: {
-    cancel() {
-      this.$router.push({ path: '/order' })
-      return this.$message({
-        type: 'error',
-        message: '已取消!'
-      })
-    },
-    init() {
-      if (this.$route.params && this.$route.params.id) {
-        const id = this.$route.params.id
-        this.getById(id)
-      }else{
-        this.order = {}
-      }
-    },
-    removeGasCylinder(gasCylinderId) {
-      var index = this.orderItems.findIndex(item => {
-        if (item.gasCylinderId === gasCylinderId) {
-          return true
-        }
-      })
-      this.orderItems.splice(index, 1)
-    },
-    addCustomer(id, name, address) {
+    addCustomer(id, name) {
       this.customer.customerId = id
       this.customer.customerName = name
-      this.customer.address = address
     },
     addCustomers() {
       this.size = 8
@@ -239,78 +154,59 @@ export default {
         this.listLoading = false
       })
     },
-    addGasCylinder(gasCylinderId, name, inventory) {
-      var gas = { gasCylinderId, name, inventory }
-      this.orderItems.push(gas)
-    },
-    addorderItems() {
-      this.size = 8
-      this.index = 1
-      this.total = 0
-      this.search = ''
-      this.getGasCylinderList()
-    },
-    handleorderItemsizeChange(size) {
-      this.size = size
-      this.index = 1
-      this.getGasCylinderList()
-    },
-    handleGasCylinderCurrentChange(index) {
-      this.index = index
-      this.getGasCylinderList()
-    },
-    getGasCylinderList() {
-      this.listLoading = true
-      gasCylinder.getPageList(this.index, this.size, this.search).then(response => {
-        this.total = response.data.page.total
-        this.index = response.data.page.current
-        this.size = response.data.page.size
-        this.gasCylinderList = response.data.page.records
-        this.listLoading = false
+    cancel() {
+      this.$router.push({ path: '/bill' })
+      return this.$message({
+        type: 'error',
+        message: '已取消!'
       })
     },
-
+    init() {
+      if (this.$route.params && this.$route.params.id) {
+        this.addCustomersButton = true
+        const id = this.$route.params.id
+        this.getById(id)
+      } else {
+        this.addCustomersButton = false
+        this.bill = {}
+      }
+    },
     // 保存
     saveOrUpdate() {
       this.saveBtnDisabled = true
-      if (!this.order.id) {
+      if (!this.bill.id) {
         this.save()
       } else {
         this.update()
       }
     },
     save() {
-      this.order.customer = this.customer
-      this.order.orderItems = this.orderItems
-      order.save(this.order).then(response => {
+      bill.save(this.bill).then(response => {
         return this.$message({
           type: 'success',
           message: '保存成功!'
         })
       }).then(resposne => {
-        this.$router.push({ path: '/order' })
+        this.$router.push({ path: '/bill' })
       })
     },
     // 根据id查询记录
     getById(id) {
-      this.order.id = id
-      order.getById(id).then(response => {
-        this.customer = response.data.order.customer
-        this.orderItems = response.data.order.orderItems
-        this.order.createTimeStr = response.data.order.createTimeStr
+      bill.getById(id).then(response => {
+        this.bill = response.data.bill
+        this.customer.customerName = this.bill.customerName
+        this.customer.customerId = this.bill.customerId
       })
     },
     // 更新
     update() {
-      this.order.customer = this.customer
-      this.order.orderItems = this.orderItems
-      order.update(this.order).then(response => {
+      bill.update(this.bill).then(response => {
         return this.$message({
           type: 'success',
           message: '修改成功!'
         })
       }).then(resposne => {
-        this.$router.push({ path: '/order' })
+        this.$router.push({ path: '/bill' })
       })
     }
   }

@@ -47,7 +47,7 @@
             layout="total, sizes, prev, pager, next, jumper"
             @size-change="handleCustomerSizeChange"
             @current-change="handleCustomerCurrentChange"/>
-          <el-button  v-if="order.id==0" slot="reference" type="primary" @click="addCustomers()"  >选择客户</el-button>
+          <el-button slot="reference" :disabled="addCustomersButton" type="primary" @click="addCustomers()" >选择客户</el-button>
         </el-popover>
       </el-form-item>
       <el-form-item>
@@ -199,11 +199,11 @@ export default {
     totalChange() {
       var orderTotal = 0
       this.orderItems.forEach(function(item, index) {
-        if(item.total>0){
+        if (item.total > 0) {
           orderTotal = orderTotal + item.total
         }
       })
-      if(orderTotal>=0){
+      if (orderTotal >= 0) {
         this.order.total = orderTotal.toFixed(4)
       }
     },
@@ -216,11 +216,11 @@ export default {
     },
     init() {
       if (this.$route.params && this.$route.params.id) {
+        this.addCustomersButton = true
         const id = this.$route.params.id
         this.getById(id)
-      }else{
-        this.orderItems = []
-        this.customer = {}
+      } else {
+        this.addCustomersButton = false
         this.order = {}
       }
     },
@@ -267,13 +267,13 @@ export default {
     addGasCylinder(gasCylinderId, name, inventory) {
       var canAdd = true
       this.orderItems.forEach(function(item, index) {
-        if(item.gasCylinderId==gasCylinderId){
-         canAdd = false
+        if (item.gasCylinderId === gasCylinderId) {
+          canAdd = false
         }
       })
-      if(canAdd){
-      var gas = { gasCylinderId, name, inventory }
-      this.orderItems.push(gas)
+      if (canAdd) {
+        var gas = { gasCylinderId, name, inventory }
+        this.orderItems.push(gas)
       }
     },
     addorderItems() {

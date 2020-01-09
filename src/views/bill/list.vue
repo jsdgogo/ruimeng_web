@@ -2,8 +2,8 @@
   <div class="app-container">
     <!--查询表单-->
     <el-form :inline="true" class="demo-form-inline" >
-      <el-form-item>
-        <el-input v-model.trim="search" placeholder="姓名 微信 地址 电话 联系人" />
+      <el-form-item >
+        <el-input v-model.trim="search" placeholder="客户名称" style="width:220px" />
       </el-form-item>
 
       <el-form-item label="创建时间">
@@ -25,8 +25,9 @@
         />
       </el-form-item>
 
-      <el-button type="primary" icon="el-icon-search" @click="getPageList(index=1,size,search,beginTime,endTime)">查询</el-button>
+      <el-button type="primary" icon="el-icon-search" @click="getPageList(index=1,size,search)">查询</el-button>
       <el-button type="default" @click="resetData()">清空</el-button>
+      <el-button type="primary" @click="exportBill">导出查询结果</el-button>
     </el-form>
     <!-- 表格 -->
     <el-table
@@ -41,18 +42,17 @@
         label="序号"
         width="70"
         align="center"/>
-
-      <el-table-column prop="customerName" label="客户名" width="180" />
-
-      <el-table-column prop="quantity" label="总数量" width="240"/>
-
-      <el-table-column prop="totalPrice" label="总金额" width="140"/>
-
-      <el-table-column prop="createTime" label="创建时间" width="180"/>
-      <el-table-column prop="updateTime" label="修改时间" width="180"/>
+      <el-table-column prop="customerName" label="客户名称" width="240" />
+      <el-table-column prop="totalDebt" label="总欠款" width="140"/>
+      <el-table-column prop="orderDebt" label="订单欠款" width="140"/>
+      <el-table-column prop="orderTotal" label="订单总金额" width="140"/>
+      <el-table-column prop="emptyBottleTotal" label="空瓶总金额" width="140"/>
+      <el-table-column prop="paid" label="已付款" width="140" />
+      <el-table-column prop="createTime" label="创建时间" width="160"/>
+      <el-table-column prop="updateTime" label="修改时间" width="160"/>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <router-link :to="'/order/update/'+scope.row.id">
+          <router-link :to="'/bill/update/'+scope.row.id">
             <el-button type="primary" size="medium" icon="el-icon-edit">修改</el-button>
           </router-link>
           <el-button type="danger" size="medium" icon="el-icon-delete" @click="removeById(scope.row.id)">删除</el-button>
@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import order from '@/api/order'
+import bill from '@/api/bill'
 export default {
 
   data() { // 定义数据
@@ -105,7 +105,7 @@ export default {
     },
     getPageList() {
       this.listLoading = true
-      order.getPageList(this.index, this.size, this.search, this.beginTime, this.endTime).then(response => {
+      bill.getPageList(this.index, this.size, this.search).then(response => {
         this.total = response.data.page.total
         this.index = response.data.page.current
         this.size = response.data.page.size
@@ -114,12 +114,12 @@ export default {
       })
     },
     removeById(id) {
-      this.$confirm('此操作将永久删除该客户 是否继续?', '提示', {
+      this.$confirm('此操作将永久删除 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        return order.removeById(id)
+        return bill.removeById(id)
       }).then(() => { // 如果上一个then成功则执行此处的then回调
         this.getPageList()
         this.$message({
@@ -138,6 +138,11 @@ export default {
     resetData() {
       this.search = null
       this.getPageList()
+    },
+    exportBill() {
+      bill.exportBill(this.beginTime, this.endTime).then(response => {
+        console.log(response)
+      })
     }
   }}
 
