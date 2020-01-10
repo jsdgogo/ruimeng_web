@@ -69,7 +69,7 @@
           <el-input-number v-model="bill.orderTotal" :precision="4" :step="0.1" :min="0"/>
         </el-col>
       </el-form-item>
-      <el-form-item label="空瓶总金额">
+      <el-form-item label="空瓶欠款">
         <el-col :span="8">
           <el-input-number v-model="bill.emptyBottleTotal" :precision="4" :step="0.1" :min="0"/>
         </el-col>
@@ -193,7 +193,14 @@ export default {
     // 根据id查询记录
     getById(id) {
       bill.getById(id).then(response => {
-        this.bill = response.data.bill
+        this.bill.id = response.data.bill.id
+        this.bill.customerId = response.data.bill.customerId
+        this.bill.customerName = response.data.bill.customerName
+        this.bill.totalDebt = response.data.bill.totalDebt
+        this.bill.orderDebt = response.data.bill.orderDebt
+        this.bill.orderTotal = response.data.bill.orderTotal
+        this.bill.paid = response.data.bill.paid
+        this.bill.emptyBottleTotal = response.data.bill.emptyBottleTotal
         this.customer.customerName = this.bill.customerName
         this.customer.customerId = this.bill.customerId
       })

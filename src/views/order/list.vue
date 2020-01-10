@@ -27,7 +27,6 @@
 
       <el-button type="primary" icon="el-icon-search" @click="getPageList(index=1,size,search,beginTime,endTime)">查询</el-button>
       <el-button type="default" @click="resetData()">清空</el-button>
-      <!-- <el-button type="primary" ><a :href="baseURL+'/order/exportOrder'" >导出查询结果</a></el-button> -->
       <el-button type="primary" @click="exportOrder">导出查询结果</el-button>
     </el-form>
     <!-- 表格 -->

@@ -110,12 +110,12 @@
       <el-table-column prop="name" label="气瓶类型" width="180" />
       <el-table-column prop="price" label="单价" width="205">
         <template slot-scope="scope">
-          <el-input-number v-model.trim="scope.row.price" :precision="4" :step="0.1" :min="0" @input="totalChange"/>
+          <el-input-number v-model="scope.row.price" :precision="4" :step="0.1" :min="0" @input="totalChange"/>
         </template>
       </el-table-column>
       <el-table-column prop="quantity" label="数量" width="205">
         <template slot-scope="scope">
-          <el-input-number v-model.trim="scope.row.quantity" :min="1" @input="totalChange"/>
+          <el-input-number v-model="scope.row.quantity" :min="1" @input="totalChange"/>
         </template>
       </el-table-column>
       <el-table-column prop="total" label="金额" width="140" >
@@ -133,7 +133,7 @@
     <br>
     <el-form :inline="true" class="demo-form-inline" >
       <el-form-item label="订单总金额:">
-        <el-input v-model="order.total" placeholder="等待计算" readonly/>
+        <el-input v-model="orderTotal" placeholder="等待计算" readonly/>
       </el-form-item>
       <el-form-item label="客户付款金额:">
         <el-input-number v-model.trim="order.paid" :precision="4" :step="0.1" :min="0" />
@@ -159,7 +159,7 @@ export default {
       search: '', // 查询条件
       beginTime: '',
       endTime: '',
-      id: '',
+      orderTotal: '',
       customer: {
         customerId: 0,
         customerName: '',
@@ -204,7 +204,7 @@ export default {
         }
       })
       if (orderTotal >= 0) {
-        this.order.total = orderTotal.toFixed(4)
+        this.orderTotal = orderTotal.toFixed(4)
       }
     },
     cancel() {
@@ -313,6 +313,7 @@ export default {
       }
     },
     save() {
+      this.order.total = this.orderTotal
       this.order.customer = this.customer
       this.order.orderItems = this.orderItems
       order.save(this.order).then(response => {
@@ -337,6 +338,7 @@ export default {
     },
     // 更新
     update() {
+      this.order.total = this.orderTotal
       this.order.customer = this.customer
       this.order.orderItems = this.orderItems
       order.update(this.order).then(response => {

@@ -42,11 +42,11 @@
         label="序号"
         width="70"
         align="center"/>
-      <el-table-column prop="customerName" label="客户名称" width="240" />
+      <el-table-column prop="customerName" label="客户名称" width="220" />
       <el-table-column prop="totalDebt" label="总欠款" width="140"/>
       <el-table-column prop="orderDebt" label="订单欠款" width="140"/>
       <el-table-column prop="orderTotal" label="订单总金额" width="140"/>
-      <el-table-column prop="emptyBottleTotal" label="空瓶总金额" width="140"/>
+      <el-table-column prop="emptyBottleTotal" label="空瓶欠款" width="140"/>
       <el-table-column prop="paid" label="已付款" width="140" />
       <el-table-column prop="createTime" label="创建时间" width="160"/>
       <el-table-column prop="updateTime" label="修改时间" width="160"/>
