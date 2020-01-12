@@ -27,6 +27,7 @@
 
       <el-button type="primary" icon="el-icon-search" @click="getPageList(index=1,size,search,beginTime,endTime)">查询</el-button>
       <el-button type="default" @click="resetData()">清空</el-button>
+      <el-button type="primary" @click="exportCEB">导出查询结果</el-button>
     </el-form>
     <!-- 表格 -->
     <el-table
@@ -43,14 +44,14 @@
         align="center"/>
 
       <el-table-column prop="customerName" label="客户名" width="180" />
-      <el-table-column prop="gasCylinderName" label="空瓶类型" width="240"/>
+      <el-table-column prop="gasCylinderName" label="空瓶类型" width="180"/>
       <el-table-column prop="price" label="单价" width="140"/>
       <el-table-column prop="total" label="所欠空瓶总数" width="140"/>
       <el-table-column prop="sendBackNumber" label="已归还数量" width="140"/>
       <el-table-column prop="nowNumber" label="未归还数量" width="140"/>
-
-      <el-table-column prop="createTime" label="创建时间" width="180"/>
-      <el-table-column prop="updateTime" label="修改时间" width="180"/>
+      <el-table-column prop="totalPrice" label="空瓶欠款" width="140"/>
+      <el-table-column prop="createTime" label="创建时间" width="170"/>
+      <el-table-column prop="updateTime" label="修改时间" width="170"/>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <router-link :to="'/customerEmptyBottle/update/'+scope.row.id">
@@ -139,6 +140,11 @@ export default {
     resetData() {
       this.search = null
       this.getPageList()
+    },
+    exportCEB() {
+      customerEmptyBottle.exportCEB(this.beginTime, this.endTime, this.search).then(response => {
+        console.log(response)
+      })
     }
   }}
 

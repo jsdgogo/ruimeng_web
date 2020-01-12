@@ -42,13 +42,23 @@ export default {
       data: bill
     })
   },
-  exportBill(beginTime, endTime) {
+  exportBill(beginTime, endTime, search) {
     return request({
       url: '/bill/exportBill',
       method: 'get',
       params: {
         beginTime,
-        endTime
+        endTime,
+        search
+      }
+    })
+  },
+  getDetails(id) {
+    return request({
+      url: '/bill/getDetails',
+      method: 'get',
+      params: {
+        id
       }
     })
   }

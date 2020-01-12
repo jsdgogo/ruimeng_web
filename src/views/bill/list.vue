@@ -52,10 +52,10 @@
       <el-table-column prop="updateTime" label="修改时间" width="160"/>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <router-link :to="'/bill/update/'+scope.row.id">
-            <el-button type="primary" size="medium" icon="el-icon-edit">修改</el-button>
+          <router-link :to="'/bill/getDetails/'+scope.row.id">
+            <el-button type="primary" size="medium" >查看详情</el-button>
           </router-link>
-          <el-button type="danger" size="medium" icon="el-icon-delete" @click="removeById(scope.row.id)">删除</el-button>
+          <!-- <el-button type="danger" size="medium" icon="el-icon-delete" @click="removeById(scope.row.id)">删除</el-button> -->
         </template>
       </el-table-column>
     </el-table>
@@ -140,8 +140,13 @@ export default {
       this.getPageList()
     },
     exportBill() {
-      bill.exportBill(this.beginTime, this.endTime).then(response => {
+      bill.exportBill(this.beginTime, this.endTime, this.search).then(response => {
         console.log(response)
+      })
+    },
+    getDetails(id) {
+      bill.getDetails(id).then(response => {
+        this.bill = response.data.bill
       })
     }
   }}

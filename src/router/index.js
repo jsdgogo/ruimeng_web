@@ -46,18 +46,18 @@ export const constantRouterMap = [
       path: 'list',
       name: 'CustomerList',
       component: () => import('@/views/customer/list'),
-      meta: { title: '客户列表', icon: 'peoples' }
+      meta: { title: '客户列表' }
     },
     {
       path: 'save',
       name: 'SaveCustomer',
       component: () => import('@/views/customer/form'),
-      meta: { title: '添加客户', icon: 'peoples' }
+      meta: { title: '添加客户' }
     }, {
       path: 'update/:id',
       name: 'UpdateCustomer',
       component: () => import('@/views/customer/form'),
-      meta: { title: '修改客户', icon: 'peoples' },
+      meta: { title: '修改客户' },
       hidden: true
     }]
   },
@@ -66,23 +66,23 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/gasCylinder/list',
     name: 'GasCylinder',
-    meta: { title: '气瓶管理', icon: 'peoples' },
+    meta: { title: '气瓶管理', icon: 'pingzi' },
     children: [{
       path: 'list',
       name: 'GasCylinderList',
       component: () => import('@/views/gasCylinder/list'),
-      meta: { title: '气瓶列表', icon: 'peoples' }
+      meta: { title: '气瓶列表' }
     },
     {
       path: 'save',
       name: 'SaveGasCylinder',
       component: () => import('@/views/gasCylinder/form'),
-      meta: { title: '添加气瓶', icon: 'peoples' }
+      meta: { title: '添加气瓶' }
     }, {
       path: 'update/:id',
       name: 'UpdateGasCylinder',
       component: () => import('@/views/gasCylinder/form'),
-      meta: { title: '修改气瓶', icon: 'peoples' },
+      meta: { title: '修改气瓶' },
       hidden: true
     }]
   },
@@ -91,23 +91,23 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/emptyBottle/list',
     name: 'EmptyBottle',
-    meta: { title: '空瓶管理', icon: 'peoples' },
+    meta: { title: '空瓶管理', icon: 'pingzi' },
     children: [{
       path: 'list',
       name: 'EmptyBottleList',
       component: () => import('@/views/emptyBottle/list'),
-      meta: { title: '空瓶列表', icon: 'peoples' }
+      meta: { title: '空瓶列表' }
     },
     {
       path: 'save',
       name: 'SaveEmptyBottle',
       component: () => import('@/views/emptyBottle/form'),
-      meta: { title: '添加空瓶', icon: 'peoples' }
+      meta: { title: '添加空瓶' }
     }, {
       path: 'update/:id',
       name: 'UpdateEmptyBottle',
       component: () => import('@/views/emptyBottle/form'),
-      meta: { title: '修改空瓶', icon: 'peoples' },
+      meta: { title: '修改空瓶' },
       hidden: true
     }]
   },
@@ -116,23 +116,23 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/order/list',
     name: 'Order',
-    meta: { title: '订单管理', icon: 'peoples' },
+    meta: { title: '订单管理', icon: 'order' },
     children: [{
       path: 'list',
       name: 'OrderList',
       component: () => import('@/views/order/list'),
-      meta: { title: '订单列表', icon: 'peoples' }
+      meta: { title: '订单列表' }
     },
     {
       path: 'save',
       name: 'SaveOrder',
       component: () => import('@/views/order/form'),
-      meta: { title: '添加订单', icon: 'peoples' }
+      meta: { title: '添加订单' }
     }, {
       path: 'update/:id',
       name: 'UpdateOrder',
       component: () => import('@/views/order/form'),
-      meta: { title: '修改订单', icon: 'peoples' },
+      meta: { title: '修改订单' },
       hidden: true
     }]
   },
@@ -141,48 +141,49 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/bill/list',
     name: 'Bill',
-    meta: { title: '欠款管理', icon: 'peoples' },
+    meta: { title: '欠款管理', icon: 'bill' },
     children: [{
       path: 'list',
       name: 'BillList',
       component: () => import('@/views/bill/list'),
-      meta: { title: '欠款列表', icon: 'peoples' }
+      meta: { title: '欠款列表' }
     },
+    // {
+    //   path: 'save',
+    //   name: 'SaveBill',
+    //   component: () => import('@/views/bill/form'),
+    //   meta: { title: '添加欠款', icon: 'peoples' }
     {
-      path: 'save',
-      name: 'SaveBill',
-      component: () => import('@/views/bill/form'),
-      meta: { title: '添加欠款', icon: 'peoples' }
-    }, {
-      path: 'update/:id',
-      name: 'UpdateBill',
-      component: () => import('@/views/bill/form'),
-      meta: { title: '修改欠款', icon: 'peoples' },
+      path: 'getDetails/:id',
+      name: 'GetDetailsBill',
+      component: () => import('@/views/bill/getDetails'),
+      meta: { title: '欠款详情', icon: 'bill' },
       hidden: true
-    }]
+    }
+    ]
   },
   {
     path: '/customerEmptyBottle',
     component: Layout,
     redirect: '/customerEmptyBottle/list',
     name: 'customerEmptyBottle',
-    meta: { title: '客户空瓶统计', icon: 'peoples' },
+    meta: { title: '客户空瓶统计', icon: 'tongji' },
     children: [{
       path: 'list',
       name: 'CustomerEmptyBottleList',
       component: () => import('@/views/customerEmptyBottle/list'),
-      meta: { title: '客户空瓶列表', icon: 'peoples' }
+      meta: { title: '客户空瓶列表' }
     },
     {
       path: 'save',
       name: 'SaveCustomerEmptyBottle',
       component: () => import('@/views/customerEmptyBottle/form'),
-      meta: { title: '添加客户空瓶', icon: 'peoples' }
+      meta: { title: '添加客户空瓶' }
     }, {
       path: 'update/:id',
       name: 'UpdateCustomerEmptyBottle',
       component: () => import('@/views/customerEmptyBottle/form'),
-      meta: { title: '修改客户空瓶', icon: 'peoples' },
+      meta: { title: '修改客户空瓶' },
       hidden: true
     }]
   },
@@ -196,18 +197,18 @@ export const constantRouterMap = [
       path: 'list',
       name: 'StaffList',
       component: () => import('@/views/staff/list'),
-      meta: { title: '员工列表', icon: 'peoples' }
+      meta: { title: '员工列表' }
     },
     {
       path: 'save',
       name: 'SaveStaff',
       component: () => import('@/views/staff/form'),
-      meta: { title: '添加员工', icon: 'peoples' }
+      meta: { title: '添加员工' }
     }, {
       path: 'update/:id',
       name: 'UpdateStaff',
       component: () => import('@/views/staff/form'),
-      meta: { title: '修改员工', icon: 'peoples' },
+      meta: { title: '修改员工' },
       hidden: true
     }]
   },
@@ -232,7 +233,7 @@ export const constantRouterMap = [
       path: 'update',
       name: 'UpdateUser',
       component: () => import('@/views/user/form'),
-      meta: { title: '修改用户', icon: 'peoples' },
+      meta: { title: '修改用户', icon: 'user' },
       hidden: true
     }]
   },

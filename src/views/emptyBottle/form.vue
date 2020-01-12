@@ -53,7 +53,7 @@
       </el-form-item>
       <el-form-item label="单价">
         <el-col :span="8">
-          <el-input-number v-model="emptyBottle.price" :precision="4" :step="0.1" :min="0"/>
+          <el-input-number v-model="emptyBottle.price" :precision="2" :step="0.1" :min="0"/>
         </el-col>
       </el-form-item>
       <el-form-item>

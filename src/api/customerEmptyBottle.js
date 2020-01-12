@@ -41,5 +41,16 @@ export default {
       method: 'post',
       data: customerEmptyBottle
     })
+  },
+  exportCEB(beginTime, endTime, search) {
+    return request({
+      url: '/customerEmptyBottle/exportCEB',
+      method: 'get',
+      params: {
+        beginTime,
+        endTime,
+        search
+      }
+    })
   }
 }

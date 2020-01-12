@@ -42,7 +42,7 @@
         width="70"
         align="center"/>
 
-      <el-table-column prop="gasCylinderName" label="空瓶名" width="240" />
+      <el-table-column prop="gasCylinderName" label="空瓶类型" width="240" />
 
       <el-table-column prop="number" label="数量" width="140"/>
 

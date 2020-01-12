@@ -43,13 +43,13 @@
         width="70"
         align="center"/>
 
-      <el-table-column prop="customerName" label="客户名" width="180" />
+      <el-table-column prop="customerName" label="客户名" width="240" />
 
-      <el-table-column prop="quantity" label="总数量" width="240"/>
+      <el-table-column prop="quantity" label="总数量" width="140"/>
 
       <el-table-column prop="totalPrice" label="总金额" width="140"/>
       <el-table-column prop="paid" label="客户付款金额" width="140"/>
-
+      <el-table-column prop="orderDebt" label="订单欠款" width="140"/>
       <el-table-column prop="createTime" label="创建时间" width="180"/>
       <el-table-column prop="updateTime" label="修改时间" width="180"/>
       <el-table-column label="操作" align="center">
@@ -96,7 +96,31 @@ export default {
     this.getPageList()
   },
   methods: {
-
+    getSummaries(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '合计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return prev + curr
+            } else {
+              return prev
+            }
+          }, 0)
+          sums[index]
+        } else {
+          sums[index] = 'N/A'
+        }
+      })
+      return sums
+    },
     handleSizeChange(size) {
       this.size = size
       this.index = 1
@@ -145,7 +169,7 @@ export default {
       this.endTime = null
     },
     exportOrder() {
-      order.exportOrder(this.beginTime, this.endTime).then(response => {
+      order.exportOrder(this.beginTime, this.endTime, this.search).then(response => {
         console.log(response)
       })
     }

@@ -51,7 +51,7 @@
     </el-form>
     <el-form :inline="true" class="demo-form-inline" label-width="80px" >
       <el-form-item label="空瓶类型:">
-        <el-input v-model.trim="gasCylinder.name" placeholder="未选择" readonly/>
+        <el-input v-model.trim="emptyBottle.gasCylinderName" placeholder="未选择" readonly/>
       </el-form-item>
       <el-form-item>
         <el-popover
@@ -62,22 +62,22 @@
             <el-form-item>
               <el-input v-model.trim="search" placeholder=" 类型 " />
             </el-form-item>
-            <el-button type="primary" icon="el-icon-search" @click="getGasCylinderList(index=1,size,search)">查询</el-button>
+            <el-button type="primary" icon="el-icon-search" @click="getEmptyBottleList(index=1,size,search)">查询</el-button>
             <el-button type="default" @click="resetData()">清空</el-button>
           </el-form>
           <el-table
             v-loading="listLoading"
-            :data="gasCylinderList"
+            :data="emptyBottleList"
             element-loading-text="数据加载中"
             border
             fit
             highlight-current-row>
             <el-table-column width="70" property="id" label="id"/>
-            <el-table-column width="160" property="name" label="气瓶类型"/>
-            <el-table-column width="160" property="inventory" label="气瓶库存"/>
+            <el-table-column width="160" property="gasCylinderName" label="空瓶类型"/>
+            <el-table-column width="160" property="price" label="空瓶单价"/>
             <el-table-column label="操作" align="center">
               <template slot-scope="scope">
-                <el-button type="success" size="medium" icon="el-icon-success" @click="addGasCylinder(scope.row.id,scope.row.name)">添加</el-button>
+                <el-button type="success" size="medium" icon="el-icon-success" @click="addEmptyBottle(scope.row.id,scope.row.gasCylinderName,scope.row.price)">添加</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -89,8 +89,8 @@
             style="padding: 30px 0; text-align: center;"
             layout="total, sizes, prev, pager, next, jumper"
             @size-change="handleorderItemsizeChange"
-            @current-change="handleGasCylinderCurrentChange"/>
-          <el-button slot="reference" type="primary" @click="addorderItems()">选择气瓶</el-button>
+            @current-change="handleEmptyBottleCurrentChange"/>
+          <el-button slot="reference" type="primary" @click="addorderItems()">选择空瓶</el-button>
         </el-popover>
       </el-form-item>
     </el-form>
@@ -102,12 +102,17 @@
       </el-form-item>
       <el-form-item label="已归还">
         <el-col :span="8">
-          <el-input-number v-model="customerEmptyBottle.sendBackNumber" :min="1" />
+          <el-input-number v-model="customerEmptyBottle.sendBackNumber" :min="0" />
         </el-col>
       </el-form-item>
       <el-form-item label="单价">
-        <el-col :span="8">
-          <el-input-number v-model="customerEmptyBottle.price" :precision="4" :step="0.1" :min="0"/>
+        <el-col :span="3">
+          <el-input v-model="customerEmptyBottle.price" readonly/>
+        </el-col>
+      </el-form-item>
+      <el-form-item label="空瓶欠款">
+        <el-col :span="3">
+          <el-input v-model="customerEmptyBottle.totalPrice" readonly/>
         </el-col>
       </el-form-item>
       <el-form-item label="创建时间">
@@ -128,13 +133,13 @@
 <script>
 import customerEmptyBottle from '@/api/customerEmptyBottle'
 import customer from '@/api/customer'
-import gasCylinder from '@/api/gasCylinder'
+import emptyBottle from '@/api/emptyBottle'
 export default {
   data() {
     return {
       addCustomersButton: false,
       listLoading: true, // 是否显示loading信息
-      gasCylinderList: [],
+      emptyBottleList: [],
       customerList: [],
       total: 0, // 总记录数
       index: 1, // 页码
@@ -147,9 +152,10 @@ export default {
         id: '',
         name: ''
       },
-      gasCylinder: {
+      emptyBottle: {
         id: '',
-        name: ''
+        name: '',
+        price: ''
       },
       saveBtnDisabled: false, // 保存按钮是否禁用,
       customerEmptyBottle: {
@@ -157,11 +163,12 @@ export default {
         createTimeStr: '',
         customerId: '',
         customerName: '',
-        gasCylinderId: '',
+        emptyBottleId: '',
         gasCylinderName: '',
         price: '',
         sendBackNumber: '',
-        total: ''
+        total: '',
+        totalPrice: ''
       }
     }
   },
@@ -225,35 +232,37 @@ export default {
         this.listLoading = false
       })
     },
-    addGasCylinder(id, name) {
-      this.gasCylinder.id = id
-      this.gasCylinder.name = name
-      this.customerEmptyBottle.gasCylinderId = this.gasCylinder.id
-      this.customerEmptyBottle.gasCylinderName = this.gasCylinder.name
+    addEmptyBottle(id, gasCylinderName, price) {
+      this.emptyBottle.id = id
+      this.emptyBottle.gasCylinderName = gasCylinderName
+      this.emptyBottle.price = price
+      this.customerEmptyBottle.emptyBottleId = this.emptyBottle.id
+      this.customerEmptyBottle.gasCylinderName = this.emptyBottle.gasCylinderName
+      this.customerEmptyBottle.price = this.emptyBottle.price
     },
     addorderItems() {
       this.size = 8
       this.index = 1
       this.total = 0
       this.search = ''
-      this.getGasCylinderList()
+      this.getEmptyBottleList()
     },
     handleorderItemsizeChange(size) {
       this.size = size
       this.index = 1
-      this.getGasCylinderList()
+      this.getEmptyBottleList()
     },
-    handleGasCylinderCurrentChange(index) {
+    handleEmptyBottleCurrentChange(index) {
       this.index = index
-      this.getGasCylinderList()
+      this.getEmptyBottleList()
     },
-    getGasCylinderList() {
+    getEmptyBottleList() {
       this.listLoading = true
-      gasCylinder.getPageList(this.index, this.size, this.search).then(response => {
+      emptyBottle.getPageList(this.index, this.size, this.search).then(response => {
         this.total = response.data.page.total
         this.index = response.data.page.current
         this.size = response.data.page.size
-        this.gasCylinderList = response.data.page.records
+        this.emptyBottleList = response.data.page.records
         this.listLoading = false
       })
     },
@@ -285,15 +294,17 @@ export default {
         this.customerEmptyBottle.price = response.data.customerEmptyBottle.price
         this.customerEmptyBottle.customerId = response.data.customerEmptyBottle.customerId
         this.customerEmptyBottle.customerName = response.data.customerEmptyBottle.customerName
-        this.customerEmptyBottle.gasCylinderId = response.data.customerEmptyBottle.gasCylinderId
+        this.customerEmptyBottle.emptyBottleId = response.data.customerEmptyBottle.gasCylinderId
         this.customerEmptyBottle.gasCylinderName = response.data.customerEmptyBottle.gasCylinderName
         this.customerEmptyBottle.createTimeStr = response.data.customerEmptyBottle.createTime
         this.customerEmptyBottle.total = response.data.customerEmptyBottle.total
         this.customerEmptyBottle.sendBackNumber = response.data.customerEmptyBottle.sendBackNumber
-        this.gasCylinder.id = this.customerEmptyBottle.gasCylinderId
-        this.gasCylinder.name = this.customerEmptyBottle.gasCylinderName
+        this.emptyBottle.id = this.customerEmptyBottle.emptyBottleId
+        this.emptyBottle.gasCylinderName = this.customerEmptyBottle.gasCylinderName
+        this.emptyBottle.price = this.customerEmptyBottle.price
         this.customer.id = this.customerEmptyBottle.customerId
         this.customer.name = this.customerEmptyBottle.customerName
+        this.customerEmptyBottle.totalPrice = response.data.customerEmptyBottle.totalPrice
       })
     },
     // 更新

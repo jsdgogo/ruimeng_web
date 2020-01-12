@@ -52,13 +52,14 @@ export default {
       }
     })
   },
-  exportOrder(beginTime, endTime) {
+  exportOrder(beginTime, endTime, search) {
     return request({
       url: '/order/exportOrder',
       method: 'get',
       params: {
         beginTime,
-        endTime
+        endTime,
+        search
       }
     })
   }

@@ -103,24 +103,26 @@
     <el-table
       v-loading="false"
       :data="orderItems"
+      :summary-method="getSummaries"
       element-loading-text="数据加载中"
       border
+      show-summary
       fit
       highlight-current-row>
       <el-table-column prop="name" label="气瓶类型" width="180" />
       <el-table-column prop="price" label="单价" width="205">
         <template slot-scope="scope">
-          <el-input-number v-model="scope.row.price" :precision="4" :step="0.1" :min="0" @input="totalChange"/>
+          <el-input-number v-model="scope.row.price" :precision="2" :step="0.1" :min="0" @input="totalChange"/>
         </template>
       </el-table-column>
       <el-table-column prop="quantity" label="数量" width="205">
         <template slot-scope="scope">
-          <el-input-number v-model="scope.row.quantity" :min="1" @input="totalChange"/>
+          <el-input-number v-model="scope.row.quantity" :min="1" @input="totalChange" />
         </template>
       </el-table-column>
       <el-table-column prop="total" label="金额" width="140" >
         <template v-if="scope.row.price&&scope.row.quantity" slot-scope="scope" >
-          {{ (scope.row.total = scope.row.price * scope.row.quantity).toFixed(4) }}
+          {{ (scope.row.total = scope.row.price * scope.row.quantity).toFixed(2) }}
         </template>
       </el-table-column>
       <el-table-column prop="inventory" label="气瓶库存" width="140"/>
@@ -132,11 +134,11 @@
     </el-table>
     <br>
     <el-form :inline="true" class="demo-form-inline" >
-      <el-form-item label="订单总金额:">
-        <el-input v-model="orderTotal" placeholder="等待计算" readonly/>
-      </el-form-item>
       <el-form-item label="客户付款金额:">
-        <el-input-number v-model.trim="order.paid" :precision="4" :step="0.1" :min="0" />
+        <el-input-number v-model.trim="order.paid" :precision="2" :step="0.1" :min="0" @input="paidChange"/>
+      </el-form-item>
+      <el-form-item label="订单欠款:">
+        <el-input v-model="order.orderDebt" readonly/>
       </el-form-item>
     </el-form>
     <el-button slot="reference" type="primary" style="display:block;margin:0 auto" @click="saveOrUpdate()">生成订单</el-button>
@@ -181,7 +183,8 @@ export default {
         total: '',
         createTimeStr: '',
         orderItems: [],
-        customer: {}
+        customer: {},
+        orderDebt: ''
       }
     }
   },
@@ -204,7 +207,15 @@ export default {
         }
       })
       if (orderTotal >= 0) {
-        this.orderTotal = orderTotal.toFixed(4)
+        this.orderTotal = orderTotal.toFixed(2)
+      }
+      this.paidChange()
+    },
+    paidChange() {
+      if (this.orderTotal && this.order.paid) {
+        this.order.orderDebt = (this.orderTotal - this.order.paid)
+      } else {
+        this.order.orderDebt = this.orderTotal
       }
     },
     cancel() {
@@ -232,6 +243,7 @@ export default {
       })
       this.orderItems.splice(index, 1)
       this.totalChange()
+      this.paidChange()
     },
     addCustomer(id, name, address) {
       this.customer.customerId = id
@@ -334,6 +346,7 @@ export default {
         this.order.createTimeStr = response.data.order.createTimeStr
         this.order.total = response.data.order.total
         this.order.paid = response.data.order.paid
+        this.order.orderDebt = response.data.order.orderDebt
       })
     },
     // 更新
@@ -349,6 +362,31 @@ export default {
       }).then(resposne => {
         this.$router.push({ path: '/order' })
       })
+    },
+    getSummaries(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '合计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return prev + curr
+            } else {
+              return prev
+            }
+          }, 0)
+          sums[index]
+        } else {
+          sums[index] = 'N/A'
+        }
+      })
+      return sums
     }
   }
 }
