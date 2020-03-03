@@ -36,15 +36,15 @@ import { isvalidUsername } from '@/utils/validate'
 export default {
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!isvalidUsername(value)) {
+      if (value.length < 1) {
         callback(new Error('请输入正确的账号'))
       } else {
         callback()
       }
     }
     const validatePass = (rule, value, callback) => {
-      if (value.length < 5) {
-        callback(new Error('密码不能小于5位'))
+      if (value.length < 1) {
+        callback(new Error('密码不能小于1位'))
       } else {
         callback()
       }
@@ -90,6 +90,7 @@ export default {
       getInfo().then(response => {
         this.user.id = response.data.user.id
         this.user.name = response.data.user.name
+        this.user.loginName = response.data.user.loginName
       })
     },
     logout() {

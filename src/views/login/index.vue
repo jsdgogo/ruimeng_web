@@ -38,15 +38,15 @@ export default {
   name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!isvalidUsername(value)) {
+      if (value.length < 1) {
         callback(new Error('请输入正确的账号'))
       } else {
         callback()
       }
     }
     const validatePass = (rule, value, callback) => {
-      if (value.length < 5) {
-        callback(new Error('密码不能小于5位'))
+      if (value.length < 1) {
+        callback(new Error('密码不能小于1位'))
       } else {
         callback()
       }
